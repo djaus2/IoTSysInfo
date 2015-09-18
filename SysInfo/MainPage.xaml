@@ -1,0 +1,93 @@
+﻿<Page
+    x:Class="SysInfo.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SysInfo"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Name="Grid1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="narrowView">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!---->
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="wideView">
+                    <VisualState.Setters>
+                        <!---->
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="640" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        
+        <TextBlock x:Name="textBlock5" HorizontalAlignment="Left" Height="49" Margin="10,577,0,0" TextWrapping="Wrap" Text="API Params (ie ?..):" VerticalAlignment="Top" Width="99"/>
+        <TextBox x:Name="textBoxAPI_Params" HorizontalAlignment="Left" Height="34" Margin="114,577,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="236" TextChanged="textBoxAPI_TextChanged"/>
+
+        <Button x:Name="localhostButton" Content="localhost" HorizontalAlignment="Left" Height="41" Margin="10,32,0,0" VerticalAlignment="Top" Width="148" Click="buttonSelectTarget_Click"/>
+        <Button x:Name="minwinpcButton" Content="minwinpc" HorizontalAlignment="Left" Height="36" Margin="10,83,0,0" VerticalAlignment="Top" Width="148" Click="buttonSelectTarget_Click"/>
+        <Button x:Name="myRpi2IPAddressButton" Content="192.168.0.28" HorizontalAlignment="Left" Height="35" Margin="10,129,0,0" VerticalAlignment="Top" Width="148" Click="buttonSelectTarget_Click"/>
+        <TextBox x:Name="textBoxDevice" HorizontalAlignment="Left" Height="35" Margin="175,84,0,0" TextWrapping="Wrap" Text="localhost" VerticalAlignment="Top" Width="175" TextChanged="textBoxTargetDeviceName_TextChanged"/>
+        <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Height="27" Margin="175,67,0,0" TextWrapping="Wrap" Text="Device:" VerticalAlignment="Top" Width="75"/>
+
+        <TextBox x:Name="textBoxPort" HorizontalAlignment="Left" Height="20" Margin="175,171,0,0" TextWrapping="Wrap" Text="8080" VerticalAlignment="Top" Width="175" TextChanged="textBoxPort_TextChanged"/>
+        <TextBlock x:Name="textBlock2" HorizontalAlignment="Left" Height="27" Margin="83,171,0,0" TextWrapping="Wrap" Text="Port:" VerticalAlignment="Top" Width="75"/>
+
+        <TextBox x:Name="textBoxUser" HorizontalAlignment="Left" Height="28" Margin="175,219,0,0" TextWrapping="Wrap" Text="Administrator" VerticalAlignment="Top" Width="175" TextChanged="textBoxUser_TextChanged"/>
+        <TextBlock x:Name="textBlock3" HorizontalAlignment="Left" Height="27" Margin="83,219,0,0" TextWrapping="Wrap" Text="User:" VerticalAlignment="Top" Width="75"/>
+
+        <TextBox x:Name="textBoxPwd" HorizontalAlignment="Left" Height="27" Margin="175,268,0,0" TextWrapping="Wrap" Text="p@ssw0rd" VerticalAlignment="Top" Width="175" TextChanged="textBoxPwd_TextChanged"/>
+        <TextBlock x:Name="textBlock4" HorizontalAlignment="Left" Height="27" Margin="83,268,0,0" TextWrapping="Wrap" Text="Password:" VerticalAlignment="Top" Width="75"/>
+
+        <Button x:Name="ipconfigButton" Content="ipconfig" HorizontalAlignment="Left" Height="34" Margin="10,300,0,0" VerticalAlignment="Top" Width="99" Click="button_Click_1"/>
+        <Button x:Name="sysinfoButton" Content="sysinfo" HorizontalAlignment="Left" Height="34" Margin="10,339,0,0" VerticalAlignment="Top" Width="99" Click="button_Click_1"/>
+        <Button x:Name="apiButton" Content="api" HorizontalAlignment="Left" Height="34" Margin="10,538,0,0" VerticalAlignment="Top" Width="99" Click="button_Click_1"/>
+        <Button x:Name="osapiButton" Content="osapi" HorizontalAlignment="Left" Height="34" Margin="10,378,0,0" VerticalAlignment="Top" Width="99" Click="button_Click_1" RenderTransformOrigin="0.323,4.676"/>
+        <TextBox x:Name="textBoxAPI" HorizontalAlignment="Left" Height="34" Margin="114,538,0,0" TextWrapping="Wrap" Text="api/networking/ipconfig" VerticalAlignment="Top" Width="236" TextChanged="textBoxAPI_TextChanged"/>
+        <Button x:Name="devicesButton" Content="devices" HorizontalAlignment="Left" Height="34" Margin="10,417,0,0" VerticalAlignment="Top" Width="99" Click="button_Click_1" RenderTransformOrigin="0.323,4.676"/>
+        <Button x:Name="processesButton" Content="processes" HorizontalAlignment="Left" Height="34" Margin="10,456,0,0" VerticalAlignment="Top" Width="99" Click="button_Click_1" RenderTransformOrigin="0.323,4.676"/>
+        <Button x:Name="default_appButton" Content="default app" HorizontalAlignment="Left" Height="34" Margin="10,495,0,0" VerticalAlignment="Top" Width="99" Click="button_Click_1" RenderTransformOrigin="0.323,4.676"/>
+        <TextBox x:Name="textBoxTimeout" HorizontalAlignment="Left" Height="39" Margin="261,412,0,0" TextWrapping="Wrap" Text="10000" VerticalAlignment="Top" Width="89" IsReadOnly="True"/>
+        <Slider x:Name="slider" HorizontalAlignment="Left" Height="34" Margin="175,383,0,0" VerticalAlignment="Top" Width="175" Maximum="20000" Minimum="500" Value="10000" ValueChanged="slider_ValueChanged"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Height="17" Margin="175,373,0,0" TextWrapping="Wrap" Text="Timeout (sec)" VerticalAlignment="Top" Width="112"/>
+        <Button x:Name="cancelButton" Content="Cancel" HorizontalAlignment="Left" Height="34" Margin="175,339,0,0" VerticalAlignment="Top" Width="100" Click="button3_Click"/>
+
+        <Button x:Name="providersButton" Content="providers" HorizontalAlignment="Left" Height="34" Margin="133,456,0,0" VerticalAlignment="Top" Width="99" Click="button_Click_1" RenderTransformOrigin="0.323,4.676"/>
+        <Button x:Name="paramsButton" Content="clear params" HorizontalAlignment="Left" Height="34" Margin="251,495,0,0" VerticalAlignment="Top" Width="99" Click="button_Click_1"/>
+
+
+        <ListBox x:Name="DeviceInterfacesOutputList"    ItemsSource="{Binding}"
+                 ScrollViewer.IsVerticalRailEnabled="True" 
+                 ScrollViewer.IsHorizontalRailEnabled="True" 
+                 HorizontalAlignment="Left" 
+                 VerticalAlignment="Top"
+                 Height="Auto" 
+                 Width="Auto"
+                 Margin="392,0,0,0" 
+                 ScrollViewer.HorizontalScrollBarVisibility="Visible" 
+                 ScrollViewer.VerticalScrollBarVisibility="Visible" SelectionChanged="DeviceInterfacesOutputList_SelectionChanged" 
+                 >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Width="Auto" Height="Auto">
+                        <TextBlock Text="{Binding Name}" Width="260"/>
+                        <TextBlock Text="{Binding Value}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Image x:Name="image" HorizontalAlignment="Left" Height="115" Margin="572,219,0,0" VerticalAlignment="Top" Width="232" Source="Assets/e101_Logo_OneColor_86_180_v2.jpg" IsDoubleTapEnabled="False" IsHoldingEnabled="False" IsRightTapEnabled="False" IsTapEnabled="False"/>
+
+
+
+    </Grid>
+</Page>
