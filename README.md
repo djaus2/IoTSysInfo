@@ -1,5 +1,8 @@
 # IoTSysInfo
-A Universal Windows App that mimicks the web portal* a Windows 10 IoT device. (Both versions now uploaded)
+A Universal Windows App that mimicks the web portal* to a Windows 10 IoT device. (Both versions now uploaded)
+
+## Platforms:
+Windows 10 IoT, Windows 10 Desktop, Windows 10 Phone(Version 2 of app)
 
 # About
 A *Windows 10 IoT* device has a *web portal* in which you can view various aspects of the running device. You can also set some aspects. The readable status items are accessed via the portal gain this access through *REST* calls from *JavaScript*. This app uses the same APIs and accesses them through *REST*. As the responses are in *JSON* format, the app **recursively** parses the respone to generate the inormation to be displayed.
