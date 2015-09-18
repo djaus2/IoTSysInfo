@@ -10,5 +10,5 @@ There are two versions, both using the same *REST* and *JSON* processing code. T
 # The Take Home
 This app shows you how you access various system attributes of a Windows 10 IoT device from a Universal Windows App running on the device or on another Windows 10 device (IoT, Phone or Desktop). It exemplifies REST calls and recursive JSON parsing.
 
-*** Footnote:
+*** Footnote:***
 * The web portal is accessed at http://<the device IP address>:8080
