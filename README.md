@@ -13,6 +13,9 @@ There are two versions, both using the same *REST* and *JSON* processing code. T
 # The Take Home
 This app shows you how you access various system attributes of a Windows 10 IoT device from a Universal Windows App running on the device or on another Windows 10 device (IoT, Phone or Desktop). It exemplifies REST calls and recursive JSON parsing.
 
+# Acknowledgement
+The basis of this app (wrt REST and the Web Portal API) came for a blog by Bruce Eitman: [Windows 10 IoT Core: Getting the MAC Address from Raspberry Pi.](http://www.embedded101.com/BruceEitman/entryid/676/Windows-10-IoT-Core-Getting-the-MAC-Address-from-Raspberry-Pi)
+
 ### Footnote:
 * The web portal of a Windows 10 IoT device is accessed at http://the_device_IP_address:8080
  eg. http://192.168.0.28:8080
