@@ -7,87 +7,285 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Name="Grid1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+   
+    <StackPanel x:Name="SP0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical"  SizeChanged="StackPanel_SizeChanged" >
+
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="narrowView">
+            <VisualStateGroup x:Name="VisualStateGroup">
+                <VisualState x:Name="VisualStatePhone">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <!---->
+                        <Setter Target="splitView1.(UIElement.Opacity)" Value="1"/>
+                        <Setter Target="splitView1.IsPaneOpen" Value="False" />
+                        <Setter Target="splitView1.DisplayMode" Value="Inline" />
+                        <Setter Target="SP1.Visibility" Value="Collapsed" />
+                        <Setter Target="SP.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
-                <VisualState x:Name="wideView">
-                    <VisualState.Setters>
-                        <!---->
-                    </VisualState.Setters>
+                <VisualState x:Name="VisualStateTab">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="640" />
+                        <AdaptiveTrigger MinWindowWidth="600" />
                     </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="splitView1.(UIElement.Opacity)" Value="1"/>
+                        <Setter Target="splitView1.IsPaneOpen" Value="True" />
+                        <Setter Target="splitView1.DisplayMode" Value="Inline" />
+                        <Setter Target="SP1.Visibility" Value="Collapsed" />
+                        <Setter Target="SP.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VisualStateDesk">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="800" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="splitView1.(UIElement.Opacity)" Value="1"/>
+                        <Setter Target="splitView1.IsPaneOpen" Value="True" />
+                        <Setter Target="splitView1.DisplayMode" Value="Inline" />
+
+                        <Setter Target="SP1.Visibility" Value="Visible" />
+                        <Setter Target="SP.Visibility" Value="Visible" />
+                    </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        
-        <TextBlock x:Name="textBlock5" HorizontalAlignment="Left" Height="49" Margin="10,577,0,0" TextWrapping="Wrap" Text="API Params (ie ?..):" VerticalAlignment="Top" Width="99"/>
-        <TextBox x:Name="textBoxAPI_Params" HorizontalAlignment="Left" Height="34" Margin="114,577,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="236" TextChanged="textBoxAPI_TextChanged"/>
 
-        <Button x:Name="localhostButton" Content="localhost" HorizontalAlignment="Left" Height="41" Margin="10,32,0,0" VerticalAlignment="Top" Width="148" Click="buttonSelectTarget_Click"/>
-        <Button x:Name="minwinpcButton" Content="minwinpc" HorizontalAlignment="Left" Height="36" Margin="10,83,0,0" VerticalAlignment="Top" Width="148" Click="buttonSelectTarget_Click"/>
-        <Button x:Name="myRpi2IPAddressButton" Content="192.168.0.28" HorizontalAlignment="Left" Height="35" Margin="10,129,0,0" VerticalAlignment="Top" Width="148" Click="buttonSelectTarget_Click"/>
-        <TextBox x:Name="textBoxDevice" HorizontalAlignment="Left" Height="35" Margin="175,84,0,0" TextWrapping="Wrap" Text="localhost" VerticalAlignment="Top" Width="175" TextChanged="textBoxTargetDeviceName_TextChanged"/>
-        <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Height="27" Margin="175,67,0,0" TextWrapping="Wrap" Text="Device:" VerticalAlignment="Top" Width="75"/>
+        <RelativePanel  Margin="0,0,0,0"  Background="#FFD9DBF5" Height="40"  UseLayoutRounding="False" d:LayoutRounding="Auto">
+            <Button Name="SplitViewButton" Background="Transparent"   Click="SplitViewButton_Click">
+                <FontIcon FontFamily="{ThemeResource ContentControlThemeFontFamily}" Glyph="&#x2261;" FontSize="24" Tapped="CommandIcon_Tapped_2" />
+            </Button>
+            <TextBlock x:Name="CommandsTextBlock" Text="Commands"  
+                   RelativePanel.RightOf="SplitViewButton" 
+                   RelativePanel.AlignVerticalCenterWith="SplitViewButton" />
+            <TextBlock x:Name="Filler1" Width="150"
+                   RelativePanel.RightOf="CommandsTextBlock"
+                   RelativePanel.AlignVerticalCenterWith="SplitViewButton" />
 
-        <TextBox x:Name="textBoxPort" HorizontalAlignment="Left" Height="20" Margin="175,171,0,0" TextWrapping="Wrap" Text="8080" VerticalAlignment="Top" Width="175" TextChanged="textBoxPort_TextChanged"/>
-        <TextBlock x:Name="textBlock2" HorizontalAlignment="Left" Height="27" Margin="83,171,0,0" TextWrapping="Wrap" Text="Port:" VerticalAlignment="Top" Width="75"/>
-
-        <TextBox x:Name="textBoxUser" HorizontalAlignment="Left" Height="28" Margin="175,219,0,0" TextWrapping="Wrap" Text="Administrator" VerticalAlignment="Top" Width="175" TextChanged="textBoxUser_TextChanged"/>
-        <TextBlock x:Name="textBlock3" HorizontalAlignment="Left" Height="27" Margin="83,219,0,0" TextWrapping="Wrap" Text="User:" VerticalAlignment="Top" Width="75"/>
-
-        <TextBox x:Name="textBoxPwd" HorizontalAlignment="Left" Height="27" Margin="175,268,0,0" TextWrapping="Wrap" Text="p@ssw0rd" VerticalAlignment="Top" Width="175" TextChanged="textBoxPwd_TextChanged"/>
-        <TextBlock x:Name="textBlock4" HorizontalAlignment="Left" Height="27" Margin="83,268,0,0" TextWrapping="Wrap" Text="Password:" VerticalAlignment="Top" Width="75"/>
-
-        <Button x:Name="ipconfigButton" Content="ipconfig" HorizontalAlignment="Left" Height="34" Margin="10,300,0,0" VerticalAlignment="Top" Width="99" Click="button_Click_1"/>
-        <Button x:Name="sysinfoButton" Content="sysinfo" HorizontalAlignment="Left" Height="34" Margin="10,339,0,0" VerticalAlignment="Top" Width="99" Click="button_Click_1"/>
-        <Button x:Name="apiButton" Content="api" HorizontalAlignment="Left" Height="34" Margin="10,538,0,0" VerticalAlignment="Top" Width="99" Click="button_Click_1"/>
-        <Button x:Name="osapiButton" Content="osapi" HorizontalAlignment="Left" Height="34" Margin="10,378,0,0" VerticalAlignment="Top" Width="99" Click="button_Click_1" RenderTransformOrigin="0.323,4.676"/>
-        <TextBox x:Name="textBoxAPI" HorizontalAlignment="Left" Height="34" Margin="114,538,0,0" TextWrapping="Wrap" Text="api/networking/ipconfig" VerticalAlignment="Top" Width="236" TextChanged="textBoxAPI_TextChanged"/>
-        <Button x:Name="devicesButton" Content="devices" HorizontalAlignment="Left" Height="34" Margin="10,417,0,0" VerticalAlignment="Top" Width="99" Click="button_Click_1" RenderTransformOrigin="0.323,4.676"/>
-        <Button x:Name="processesButton" Content="processes" HorizontalAlignment="Left" Height="34" Margin="10,456,0,0" VerticalAlignment="Top" Width="99" Click="button_Click_1" RenderTransformOrigin="0.323,4.676"/>
-        <Button x:Name="default_appButton" Content="default app" HorizontalAlignment="Left" Height="34" Margin="10,495,0,0" VerticalAlignment="Top" Width="99" Click="button_Click_1" RenderTransformOrigin="0.323,4.676"/>
-        <TextBox x:Name="textBoxTimeout" HorizontalAlignment="Left" Height="39" Margin="261,412,0,0" TextWrapping="Wrap" Text="10000" VerticalAlignment="Top" Width="89" IsReadOnly="True"/>
-        <Slider x:Name="slider" HorizontalAlignment="Left" Height="34" Margin="175,383,0,0" VerticalAlignment="Top" Width="175" Maximum="20000" Minimum="500" Value="10000" ValueChanged="slider_ValueChanged"/>
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Height="17" Margin="175,373,0,0" TextWrapping="Wrap" Text="Timeout (sec)" VerticalAlignment="Top" Width="112"/>
-        <Button x:Name="cancelButton" Content="Cancel" HorizontalAlignment="Left" Height="34" Margin="175,339,0,0" VerticalAlignment="Top" Width="100" Click="button3_Click"/>
-
-        <Button x:Name="providersButton" Content="providers" HorizontalAlignment="Left" Height="34" Margin="133,456,0,0" VerticalAlignment="Top" Width="99" Click="button_Click_1" RenderTransformOrigin="0.323,4.676"/>
-        <Button x:Name="paramsButton" Content="clear params" HorizontalAlignment="Left" Height="34" Margin="251,495,0,0" VerticalAlignment="Top" Width="99" Click="button_Click_1"/>
+            <SymbolIcon Symbol="Setting" Name="SettingsButton"  Tapped="SettingsButton_Tapped" 
+                                           RelativePanel.RightOf="Filler1"
+                   RelativePanel.AlignVerticalCenterWith="SplitViewButton" />
+            <TextBlock x:Name="SettingsTextBlock" Text="Settings" Margin="10,0,0,0"
+                   RelativePanel.RightOf="SettingsButton" 
+                   RelativePanel.AlignVerticalCenterWith="SplitViewButton" HorizontalAlignment="Right" Width="60" >
+            </TextBlock>
+            <TextBlock x:Name="Filler2" Width="300"
+                   RelativePanel.RightOf="SettingsTextBlock"
+                   RelativePanel.AlignVerticalCenterWith="SplitViewButton" />
 
 
-        <ListBox x:Name="DeviceInterfacesOutputList"    ItemsSource="{Binding}"
-                 ScrollViewer.IsVerticalRailEnabled="True" 
-                 ScrollViewer.IsHorizontalRailEnabled="True" 
-                 HorizontalAlignment="Left" 
-                 VerticalAlignment="Top"
-                 Height="Auto" 
-                 Width="Auto"
-                 Margin="392,0,0,0" 
-                 ScrollViewer.HorizontalScrollBarVisibility="Visible" 
-                 ScrollViewer.VerticalScrollBarVisibility="Visible" SelectionChanged="DeviceInterfacesOutputList_SelectionChanged" 
-                 >
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Width="Auto" Height="Auto">
-                        <TextBlock Text="{Binding Name}" Width="260"/>
-                        <TextBlock Text="{Binding Value}" />
+            <SymbolIcon Symbol="Sync" x:Name="DetailsButton"  Tapped="DetailsButton_Tapped" 
+            	RelativePanel.RightOf="Filler2"
+            	RelativePanel.AlignVerticalCenterWith="SplitViewButton" />
+
+            <TextBlock x:Name="DetailsTextBlock" Text="Details" Margin="10,0,-0,0"
+                   RelativePanel.RightOf="DetailsButton" 
+                   RelativePanel.AlignVerticalCenterWith="SplitViewButton" />
+        </RelativePanel>
+        <SplitView x:Name="splitView1" PaneBackground="#800000FF" IsPaneOpen="True" OpenPaneLength="256" CompactPaneLength="48" DisplayMode="Inline" Height="Auto">
+            <SplitView.Pane >
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <ListView x:Name="NavLinksList" Margin="0,12,0,0" SelectionMode="Single" Grid.Row="0" VerticalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Visible" SelectionChanged="NavLinksList_SelectionChanged" >
+                        <ListViewItem>
+                            <StackPanel Orientation="Horizontal"  Margin="10,0,0,0" Height="40">
+                                <SymbolIcon Symbol="Setting" />
+                                <TextBlock Text="target" Margin="24,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem>
+                            <StackPanel Orientation="Horizontal"  Margin="40,0,0,0" Height="40">
+                                <SymbolIcon Symbol="OneBar" />
+                                <TextBlock Text="localhost" Margin="24,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem>
+                            <StackPanel Orientation="Horizontal"  Margin="40,0,0,0" Height="40" >
+                                <SymbolIcon Symbol="TwoBars" />
+                                <TextBlock Text="minwinpc" Margin="24,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem>
+                            <StackPanel Orientation="Horizontal"  Margin="40,0,0,0" Height="40">
+                                <SymbolIcon Symbol="ThreeBars" />
+                                <TextBlock Text="192.168.0.28" Margin="24,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem>
+                            <StackPanel Orientation="Horizontal"  Margin="10,0,0,0" Height="40">
+                                <SymbolIcon Symbol="Setting" />
+                                <TextBlock Text="OS" Margin="24,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem>
+                            <StackPanel Orientation="Horizontal"  Margin="40,0,0,0" Height="40">
+                                <SymbolIcon Symbol="OpenWith" />
+                                <TextBlock Text="sysinfo" Margin="24,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem>
+                            <StackPanel Orientation="Horizontal" Margin="40,0,0,0" Height="40">
+                                <SymbolIcon Symbol="ShowResults" />
+                                <TextBlock Text="osapi" Margin="24,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListViewItem>
+
+                        <ListViewItem>
+                            <StackPanel Orientation="Horizontal"  Margin="10,0,0,0" Height="40">
+                                <SymbolIcon Symbol="Setting" />
+                                <TextBlock Text="System" Margin="24,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListViewItem>
+
+
+                        <ListViewItem>
+                            <StackPanel Orientation="Horizontal"  Margin="40,0,0,0" Height="40">
+                                <SymbolIcon Symbol="World" />
+                                <TextBlock Text="ipconfig" Margin="24,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem>
+                            <StackPanel Orientation="Horizontal" Margin="40,0,0,0" Height="40">
+                                <SymbolIcon Symbol="Flag" />
+                                <TextBlock Text="devices" Margin="24,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListViewItem>
+
+                        <ListViewItem>
+                            <StackPanel Orientation="Horizontal"  Margin="10,0,0,0" Height="40">
+                                <SymbolIcon Symbol="Setting" />
+                                <TextBlock Text="Apps + Processes" Margin="24,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem>
+                            <StackPanel Orientation="Horizontal"  Margin="40,0,0,0" Height="40">
+                                <SymbolIcon Symbol="Street" />
+                                <TextBlock Text="processes" Margin="24,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem>
+                            <StackPanel Orientation="Horizontal"  Margin="40,0,0,0" Height="40">
+                                <SymbolIcon Symbol="SolidStar" />
+                                <TextBlock Text="default app" Margin="24,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem>
+                            <StackPanel Orientation="Horizontal" Margin="40,0,0,0" Height="40">
+                                <SymbolIcon Symbol="WebCam" />
+                                <TextBlock Text="providers" Margin="24,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListViewItem>
+
+                        <ListViewItem>
+                            <StackPanel Orientation="Horizontal"  Margin="10,0,0,0" Height="40">
+                                <SymbolIcon Symbol="Setting" />
+                                <TextBlock Text="misc" Margin="24,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem>
+                            <StackPanel Orientation="Horizontal"  Margin="40,0,0,0" Height="40">
+                                <SymbolIcon Symbol="Shop" />
+                                <TextBlock Text="api" Margin="24,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem>
+                            <StackPanel Orientation="Horizontal"  Margin="40,0,0,0" Height="40">
+                                <SymbolIcon Symbol="Setting" />
+                                <TextBlock Text="clr api params" Margin="24,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem >
+                            <StackPanel Orientation="Horizontal"  Margin="10,0,0,0" Height="40">
+                                <SymbolIcon Symbol="Setting" />
+                                <TextBlock Text="target" Margin="24,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListViewItem>
+
+
+                    </ListView>
+                    <StackPanel Orientation="Vertical" Grid.Row="1">
+                        <StackPanel Orientation="Horizontal"  Height="40">
+                            <SymbolIcon Symbol="Setting" />
+                            <TextBlock Text="clear" Margin="36,0,0,0" VerticalAlignment="Center" Tapped="TextBlock_Tapped" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1"  Height="40">
+                            <SymbolIcon Symbol="Setting" />
+                            <TextBlock Text="cancel" Margin="36,0,0,0" VerticalAlignment="Center" Tapped="TextBlock_Tapped" />
+                        </StackPanel>
                     </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-
-        <Image x:Name="image" HorizontalAlignment="Left" Height="115" Margin="572,219,0,0" VerticalAlignment="Top" Width="232" Source="Assets/e101_Logo_OneColor_86_180_v2.jpg" IsDoubleTapEnabled="False" IsHoldingEnabled="False" IsRightTapEnabled="False" IsTapEnabled="False"/>
+                </Grid>
+            </SplitView.Pane>
 
 
+            <StackPanel x:Name="SP" Orientation="Horizontal"  Background="LightBlue" >
+                <RelativePanel x:Name="SP1"  BorderBrush="Black" Background="Pink" Margin="0,0,0,155" DataContext="{Binding}" Width="380" >
+                    <TextBlock x:Name="textBlock1"  Margin="10,25,50,0" Height="27"  TextWrapping="NoWrap" Text="Device:" VerticalAlignment="Top" Width="75"/>
+                    <TextBox x:Name="textBoxDevice" RelativePanel.RightOf="textBlock1" RelativePanel.AlignVerticalCenterWith="textBlock1"  Height="35"  TextWrapping="NoWrap" Text="localhost" VerticalAlignment="Top" Width="175" TextChanged="textBoxTargetDeviceName_TextChanged"/>
 
-    </Grid>
+
+                    <TextBlock x:Name="textBlock2" Margin="10,20,0,0" RelativePanel.Below="textBlock1" RelativePanel.AlignLeftWith="textBlock1"  Height="27" TextWrapping="NoWrap" Text="Port:" VerticalAlignment="Top" Width="75"/>
+                    <TextBox x:Name="textBoxPort" RelativePanel.RightOf="textBlock2" RelativePanel.AlignLeftWith="textBoxDevice" RelativePanel.AlignVerticalCenterWith="textBlock2"  Height="20"  TextWrapping="NoWrap" Text="8080" VerticalAlignment="Top" Width="175" TextChanged="textBoxPort_TextChanged"/>
+
+                    <TextBlock x:Name="textBlock3"  Margin="10,15,0,0" RelativePanel.Below="textBlock2" RelativePanel.AlignLeftWith="textBlock1" Height="27" TextWrapping="NoWrap" Text="User:"  Width="75"/>
+                    <TextBox x:Name="textBoxUser"  Height="28" 
+                                RelativePanel.RightOf="textBlock3" RelativePanel.AlignLeftWith="textBoxDevice" RelativePanel.AlignVerticalCenterWith="textBlock3"
+                                TextWrapping="NoWrap" Text="Administrator"  Width="175" TextChanged="textBoxUser_TextChanged"/>
+
+                    <TextBlock x:Name="textBlock4"  Margin="10,20,0,0" RelativePanel.Below="textBlock3" RelativePanel.AlignLeftWith="textBlock1" Height="27" TextWrapping="NoWrap" Text="Password:"  Width="75"/>
+                    <TextBox x:Name="textBoxPwd"  Height="27"
+                                    RelativePanel.RightOf="textBlock4" RelativePanel.AlignLeftWith="textBoxDevice" RelativePanel.AlignVerticalCenterWith="textBlock4"
+                                    TextWrapping="NoWrap" Text="p@ssw0rd"  Width="175" TextChanged="textBoxPwd_TextChanged"/>
+
+                    <TextBlock x:Name="textBlock"  Margin="10,10,0,0" RelativePanel.Below="textBlock4" RelativePanel.AlignLeftWith="textBlock1" Height="17"  TextWrapping="NoWrap"  Text="Timeout (sec)"  Width="112"/>
+                    <TextBox x:Name="textBoxTimeout"  Height="27"
+                                    RelativePanel.RightOf="textBlock" RelativePanel.AlignLeftWith="textBoxDevice" RelativePanel.AlignVerticalCenterWith="textBlock"
+                                    TextWrapping="NoWrap" Text="10000"  Width="89" IsReadOnly="True"/>
+                    <Slider x:Name="slider"  Height="34"  RelativePanel.Below="textBoxTimeout" RelativePanel.AlignLeftWith="textBoxDevice"
+                                    Width="175" Maximum="20000" Minimum="500" Value="10000" ValueChanged="slider_ValueChanged"/>
+
+
+                    <TextBlock x:Name="apitextBlock5"  Margin="10,10,0,0" RelativePanel.Below="slider" RelativePanel.AlignLeftWith="textBlock" Height="22"  TextWrapping="NoWrap" Text="API Command:"  Width="128"/>
+
+                    <TextBox x:Name="textBoxAPI"  Height="34"
+                                    RelativePanel.RightOf="apitextBlock5" RelativePanel.AlignLeftWith="textBoxDevice" RelativePanel.AlignVerticalCenterWith="apitextBlock5"
+                                    TextWrapping="NoWrap" Text="api/networking/ipconfig"  Width="236" TextChanged="textBoxAPI_TextChanged"/>
+
+                    <TextBlock x:Name="apitextBlock6"  Margin="10,10,0,0" RelativePanel.Below="apitextBlock5" RelativePanel.AlignLeftWith="textBlock" Height="22"  TextWrapping="NoWrap" Text="API Params:"  Width="128"/>
+
+                    <TextBox x:Name="textBoxAPI_Params"  Margin="0,10,0,0"   Height="34"
+                                    RelativePanel.RightOf="apitextBlock6" RelativePanel.AlignLeftWith="textBoxDevice" RelativePanel.AlignVerticalCenterWith="apitextBlock6"
+                                    TextWrapping="NoWrap" Text=""  Width="236" TextChanged="textBoxAPI_TextChanged"/>
+
+                </RelativePanel>
+                <!-- StackPanel Orientation="Vertical"  BorderBrush="Black" Background="LightBlue" Width="Auto" Height="300" -->
+                <ListBox x:Name="DeviceInterfacesOutputList"    ItemsSource="{Binding}" Background="LightBlue" 
+                     ScrollViewer.IsVerticalRailEnabled="True" 
+                     ScrollViewer.IsHorizontalRailEnabled="True" 
+                     HorizontalAlignment="Left" 
+                     VerticalAlignment="Top"
+                     Height="Auto" 
+                     Width="700"
+                     Margin="0,0,0,0" 
+                     ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                     ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                     SelectionChanged="DeviceInterfacesOutputList_SelectionChanged" 
+                     >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Width="Auto" Height="Auto">
+                                <TextBlock Text="{Binding Name}" Width="260"/>
+                                <TextBlock Text="{Binding Value}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+            </StackPanel>
+
+        </SplitView>
+    </StackPanel>
 </Page>
