@@ -245,49 +245,42 @@ namespace SysInfo
                             //If the query response list is from an array simplify by only showing one entry in the list per item
                             //ie Only show the item name/description etc.
                             if (NameValue.NameValues_IsFrom_Array)
-                            {
+                        {
+                            //This HAS been patterned (Version 2.2)
+                            NameValue.NameValuesStack.Push(NameValue.NameValues);
+                                string identity = ".Name";
                                 switch (Command)
                                 {
                                     //ToDo: Could pattern this.
+
                                     case "ipconfig":
-                                        NameValue.NameValuesStack.Push(NameValue.NameValues);
-                                        var dt0 = from d0 in NameValue.NameValues where d0.Name.Contains(".Description") select d0;
-                                        NameValue.NameValues = dt0.ToList<NameValue>();
-                                        SystemState = Instate.Processes;
+                                        SystemState = Instate.Ipconfig;
                                         break;
                                     case "processes":
-                                        NameValue.NameValuesStack.Push(NameValue.NameValues);
-                                        var dt = from d in NameValue.NameValues where d.Name.Contains(".ImageName") select d;
-                                        NameValue.NameValues = dt.ToList<NameValue>();
+                                        identity = ".ImageName";
                                         SystemState = Instate.Processes;
                                         break;
                                     case "devices":
-                                        NameValue.NameValuesStack.Push(NameValue.NameValues);
-                                        var dt2 = from d2 in NameValue.NameValues where d2.Name.Contains(".Description") select d2;
-                                        NameValue.NameValues = dt2.ToList<NameValue>();
+                                        identity = ".Description";
                                         SystemState = Instate.Devices;
                                         break;
                                     case "providers":
-                                        NameValue.NameValuesStack.Push(NameValue.NameValues);
-                                        var dt3 = from d3 in NameValue.NameValues where d3.Name.Contains(".Name") select d3;
-                                        NameValue.NameValues = dt3.ToList<NameValue>();
                                         SystemState = Instate.Devices;
                                         break;
                                     case "packages":
-                                        NameValue.NameValuesStack.Push(NameValue.NameValues);
-                                        var dt4 = from d4 in NameValue.NameValues where d4.Name.Contains(".Name") select d4;
-                                        NameValue.NameValues = dt4.ToList<NameValue>();
                                         SystemState = Instate.Packages;
                                         break;
                                     /* [4] Add a new query where top level returns an array of entities
                                     case "newquery:
-                                        NameValue.NameValuesStack.Push(NameValue.NameValues);
-                                        var dtn = from dn in NameValue.NameValues where dn.Name.Contains(".Name"- or ".Description" etc need the dot) select dn;
-                                        NameValue.NameValues = dtn.ToList<NameValue>();
+                                        identity =(".Name"- or ".Description" etc need the dot)
                                         SystemState = Instate.Packages;
-                                        break;*/
-                                }
-                          }
+                                        break;
+                                    */
+                            }
+                            //Get only the identity (name) record for each item
+                            var nameValuesIds = from nv in NameValue.NameValues where nv.Name.Contains(identity) select nv;
+                            NameValue.NameValues = nameValuesIds.ToList<NameValue>();
+                        }
                     }
 
                     DeviceInterfacesOutputList.DataContext = NameValue.NameValues;
