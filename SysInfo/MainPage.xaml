@@ -154,6 +154,12 @@
                                 <TextBlock Text="devices" Margin="24,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </ListViewItem>
+                        <ListViewItem>
+                            <StackPanel Orientation="Horizontal" Margin="40,0,0,0" Height="40">
+                                <SymbolIcon Symbol="WebCam" />
+                                <TextBlock Text="providers" Margin="24,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListViewItem>
 
                         <ListViewItem>
                             <StackPanel Orientation="Horizontal"  Margin="10,0,0,0" Height="40">
@@ -161,12 +167,7 @@
                                 <TextBlock Text="Apps + Processes" Margin="24,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </ListViewItem>
-                        <ListViewItem>
-                            <StackPanel Orientation="Horizontal"  Margin="40,0,0,0" Height="40">
-                                <SymbolIcon Symbol="Street" />
-                                <TextBlock Text="processes" Margin="24,0,0,0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </ListViewItem>
+
                         <ListViewItem>
                             <StackPanel Orientation="Horizontal"  Margin="40,0,0,0" Height="40">
                                 <SymbolIcon Symbol="SolidStar" />
@@ -175,10 +176,19 @@
                         </ListViewItem>
                         <ListViewItem>
                             <StackPanel Orientation="Horizontal" Margin="40,0,0,0" Height="40">
-                                <SymbolIcon Symbol="WebCam" />
-                                <TextBlock Text="providers" Margin="24,0,0,0" VerticalAlignment="Center"/>
+                                <SymbolIcon Symbol="AllApps" />
+                                <TextBlock Text="packages" Margin="24,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </ListViewItem>
+                        <ListViewItem>
+                            <StackPanel Orientation="Horizontal"  Margin="40,0,0,0" Height="40">
+                                <SymbolIcon Symbol="Street" />
+                                <TextBlock Text="processes" Margin="24,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListViewItem>
+
+
+
 
                         <ListViewItem>
                             <StackPanel Orientation="Horizontal"  Margin="10,0,0,0" Height="40">

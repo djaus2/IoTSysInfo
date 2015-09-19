@@ -32,7 +32,13 @@ namespace SysInfo
             Devices,
             Devices_Adevice,
             Providers,
-            Providers_Aprovider
+            Providers_Aprovider,
+            Packages,
+            Packages_Apackage,
+            /* [1] Adding a new query where the enity is an array
+            newquery,
+            Newquery_Aquery
+            */
         }
         Instate SystemState = Instate.None;
 
@@ -132,52 +138,48 @@ namespace SysInfo
                         break;
                     case "localhost":
                         textBoxDevice.Text = Command;
-                        //targetButton.Icon = new SymbolIcon(Symbol.OneBar);
                         exitNow = true;
                         break;
                     case "minwinpc":
                         textBoxDevice.Text = Command;
-                        //targetButton.Icon = new SymbolIcon(Symbol.TwoBars);
                         exitNow = true;
                         break;
                     case "192.168.0.28":
                         textBoxDevice.Text = Command;
-                        //targetButton.Icon = new SymbolIcon(Symbol.ThreeBars);
                         exitNow = true;
                         break;
                     case "sysinfo":
                         textBoxAPI.Text = Command;
-                        //targetButton.Icon = new SymbolIcon(Symbol.ThreeBars);
                         break;
                     case "osapi":
                         textBoxAPI.Text = Command;
-                        //targetButton.Icon = new SymbolIcon(Symbol.ThreeBars);
                         break;
                     case "ipconfig":
                         textBoxAPI.Text = Command;
-                        //targetButton.Icon = new SymbolIcon(Symbol.ThreeBars);
                         break;
                     case "devices":
                         textBoxAPI.Text = Command;
-                        //targetButton.Icon = new SymbolIcon(Symbol.ThreeBars);
                         break;
                     case "processes":
                         textBoxAPI.Text = Command;
-                        //targetButton.Icon = new SymbolIcon(Symbol.ThreeBars);
                         break;
                     case "providers":
                         textBoxAPI.Text = Command;
-                        //targetButton.Icon = new SymbolIcon(Symbol.ThreeBars);
+                        break;
+                    case "packages":
+                        textBoxAPI.Text = Command;
                         break;
                     case "api":
                         textBoxAPI.Text = Command;
-                        //targetButton.Icon = new SymbolIcon(Symbol.ThreeBars);
                         break;
                     case "clr api params":
                         textBoxAPI_Params.Text = "";
-                        //targetButton.Icon = new SymbolIcon(Symbol.ThreeBars);
                         break;
-
+                    /* [2] Add a new query
+                    case "newquery":
+                        textBoxAPI_Params.Text = "";
+                        break;
+                   */
                 }
 
                 if (exitNow)
@@ -209,62 +211,83 @@ namespace SysInfo
                     case "providers":
                         url = SysInfo.ProvidersURL;
                         break;
-                }
-
-                if (url != "")
-                {
-                    //Show this in the MainPage URL textbox
-                    //API buttomn actions what ever is here.
-                    this.textBoxAPI.Text = url;
-                    NameValue.NameValues.Clear();
-                    DeviceInterfacesOutputList.DataContext = NameValue.NameValues;
-
-                    //Do the REST query and JSON parsing
-                    bool res = await SysInfo.DoQuery(url);
-
-                    //If not OK then only show a generic error message
-                    if (!res)
-                    {
-                        NameValue.ClearList();
-                        NameValue nv = new NameValue("Error:", "Target not found, timeout or processing error.");
+                    case "packages":
+                        url = SysInfo.PackagesURL;
+                        break;
+                    /* [3] Add a new query
+                    case "newquery":
+                        url = SysInfo.NewqueryURL;
+                        break;
+                    */
                     }
-                    else
-                    {
-                        DetailsTextBlock.Text = Command;
 
-                        //If the query response list is from an array simplify by only showing one entry in the list per item
-                        //ie Only show the item name/description etc.
-                        if (NameValue.NameValues_IsFrom_Array)
+                    if (url != "")
+                    {
+                        //Show this in the MainPage URL textbox
+                        //API buttomn actions what ever is here.
+                        this.textBoxAPI.Text = url;
+                        NameValue.NameValues.Clear();
+                        DeviceInterfacesOutputList.DataContext = NameValue.NameValues;
+
+                        //Do the REST query and JSON parsing
+                        bool res = await SysInfo.DoQuery(url);
+
+                        //If not OK then only show a generic error message
+                        if (!res)
                         {
-                            switch (Command)
-                            {
-                                //ToDo: Could pattern this.
-                                case "ipconfig":
-                                    NameValue.NameValuesStack.Push(NameValue.NameValues);
-                                    var dt0 = from d0 in NameValue.NameValues where d0.Name.Contains("Description") select d0;
-                                    NameValue.NameValues = dt0.ToList<NameValue>();
-                                    SystemState = Instate.Processes;
-                                    break;
-                                case "processes":
-                                    NameValue.NameValuesStack.Push(NameValue.NameValues);
-                                    var dt = from d in NameValue.NameValues where d.Name.Contains("ImageName") select d;
-                                    NameValue.NameValues = dt.ToList<NameValue>();
-                                    SystemState = Instate.Processes;
-                                    break;
-                                case "devices":
-                                    NameValue.NameValuesStack.Push(NameValue.NameValues);
-                                    var dt2 = from d2 in NameValue.NameValues where d2.Name.Contains("Description") select d2;
-                                    NameValue.NameValues = dt2.ToList<NameValue>();
-                                    SystemState = Instate.Devices;
-                                    break;
-                                case "providers":
-                                    NameValue.NameValuesStack.Push(NameValue.NameValues);
-                                    var dt3 = from d3 in NameValue.NameValues where d3.Name.Contains("Name") select d3;
-                                    NameValue.NameValues = dt3.ToList<NameValue>();
-                                    SystemState = Instate.Devices;
-                                    break;
-                            }
+                            NameValue.ClearList();
+                            NameValue nv = new NameValue("Error:", "Target not found, timeout or processing error.");
                         }
+                        else
+                        {
+                            DetailsTextBlock.Text = Command;
+
+                            //If the query response list is from an array simplify by only showing one entry in the list per item
+                            //ie Only show the item name/description etc.
+                            if (NameValue.NameValues_IsFrom_Array)
+                            {
+                                switch (Command)
+                                {
+                                    //ToDo: Could pattern this.
+                                    case "ipconfig":
+                                        NameValue.NameValuesStack.Push(NameValue.NameValues);
+                                        var dt0 = from d0 in NameValue.NameValues where d0.Name.Contains(".Description") select d0;
+                                        NameValue.NameValues = dt0.ToList<NameValue>();
+                                        SystemState = Instate.Processes;
+                                        break;
+                                    case "processes":
+                                        NameValue.NameValuesStack.Push(NameValue.NameValues);
+                                        var dt = from d in NameValue.NameValues where d.Name.Contains(".ImageName") select d;
+                                        NameValue.NameValues = dt.ToList<NameValue>();
+                                        SystemState = Instate.Processes;
+                                        break;
+                                    case "devices":
+                                        NameValue.NameValuesStack.Push(NameValue.NameValues);
+                                        var dt2 = from d2 in NameValue.NameValues where d2.Name.Contains(".Description") select d2;
+                                        NameValue.NameValues = dt2.ToList<NameValue>();
+                                        SystemState = Instate.Devices;
+                                        break;
+                                    case "providers":
+                                        NameValue.NameValuesStack.Push(NameValue.NameValues);
+                                        var dt3 = from d3 in NameValue.NameValues where d3.Name.Contains(".Name") select d3;
+                                        NameValue.NameValues = dt3.ToList<NameValue>();
+                                        SystemState = Instate.Devices;
+                                        break;
+                                    case "packages":
+                                        NameValue.NameValuesStack.Push(NameValue.NameValues);
+                                        var dt4 = from d4 in NameValue.NameValues where d4.Name.Contains(".Name") select d4;
+                                        NameValue.NameValues = dt4.ToList<NameValue>();
+                                        SystemState = Instate.Packages;
+                                        break;
+                                    /* [4] Add a new query where top level returns an array of entities
+                                    case "newquery:
+                                        NameValue.NameValuesStack.Push(NameValue.NameValues);
+                                        var dtn = from dn in NameValue.NameValues where dn.Name.Contains(".Name"- or ".Description" etc need the dot) select dn;
+                                        NameValue.NameValues = dtn.ToList<NameValue>();
+                                        SystemState = Instate.Packages;
+                                        break;*/
+                                }
+                          }
                     }
 
                     DeviceInterfacesOutputList.DataContext = NameValue.NameValues;
@@ -286,6 +309,10 @@ namespace SysInfo
                 case Instate.Processes:
                 case Instate.Devices:
                 case Instate.Providers:
+                case Instate.Packages:
+                /* [5] Add a new query
+                case Instate.Newquery:
+                */
                     //This HAS been patterned:
                     //Name contains a dotted index. Need to select all such items from original list
                     NameValue nv = (NameValue)DeviceInterfacesOutputList.SelectedItem;
@@ -313,6 +340,14 @@ namespace SysInfo
                         case Instate.Providers:
                             SystemState = Instate.Providers_Aprovider;
                             break;
+                        case Instate.Packages:
+                            SystemState = Instate.Packages_Apackage;
+                            break;
+                        /* [6] Add a new query where top level returns an array of entities
+                        case Instate.Newquery:
+                            SystemState = Instate.Newquery_Anewquery;
+                            break;
+                        */
                     }
                     DeviceInterfacesOutputList.DataContext = NameValue.NameValues;
                     break;

@@ -17,7 +17,7 @@ namespace SysInfo
     /// <summary>
     /// JSON returns Name-Value pairs
     /// When show results of queries, create a NameValue obkect for each JSON name-value object
-    /// The List binds to teh Name and Vlaue property of NameValue object list (NameValue.NameValues).
+    /// The List binds to the Name and Vlaue property of NameValue object list (NameValue.NameValues).
     /// </summary>
     public class NameValue
     {
@@ -65,7 +65,7 @@ namespace SysInfo
         public NameValue(string preName, int index, KeyValuePair<string, IJsonValue> oJson_KVP)
         {
             Name = oJson_KVP.Key;
-            //Display a property so inndicate with ,
+            //Display a property so indicate with ,
             if (preName != "")
                 Name = preName +"."  + oJson_KVP.Key;
             IJsonValue val = oJson_KVP.Value;
@@ -177,6 +177,10 @@ namespace SysInfo
         public static string ProcessesURL { get; set; } = "api/resourcemanager/processes";
         public static string DefaulAppURL { get; set; } = "api/iot/appx/getdefault";
         public static string ProvidersURL { get; set; } = "/api/etw/providers";
+        public static string PackagesURL { get; set; } = "/api/appx/installed";
+        /* [6] For if a new query is added
+        public static string NewqueryURL { get; set; } = "/api/XXX/YYYYY";
+        */
         public static string API_Params { get; set; } = "";
 
 
@@ -186,32 +190,7 @@ namespace SysInfo
             
             NameValue.ClearList();
 
-            //Following was moved to MainPage as need thsi as state.
-            //string url = "";
-            //switch (sender.ToLower())
-            //{
-            //    case "ipconfig":
-            //        url = IpConfigURL;
-            //        break;
-            //    case "sysinfo":
-            //        url = SysInfoURLRL;
-            //        break;
-            //    case "api":
-            //        url = APIURL;
-            //        break;
-            //    case "osapi":
-            //        url = OSAPILRL;
-            //        break;
-            //    case "devices":
-            //        url = DevicesURL;
-            //        break;
-            //    case "processes":
-            //        url = ProcessesURL;
-            //        break;
-            //    case "default app":
-            //        url = DefaulAppURL;
-            //        break;
-            //}
+
 
 
             //The REST call for the command
