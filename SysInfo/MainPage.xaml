@@ -53,7 +53,7 @@
         </VisualStateManager.VisualStateGroups>
 
         <RelativePanel  Margin="0,0,0,0"  Background="#FFD9DBF5" Height="40"  UseLayoutRounding="False" d:LayoutRounding="Auto">
-            <Button Name="SplitViewButton" Background="Transparent"   Click="SplitViewButton_Click">
+            <Button Name="SplitViewButton" Background="Transparent"   >
                 <FontIcon FontFamily="{ThemeResource ContentControlThemeFontFamily}" Glyph="&#x2261;" FontSize="24" Tapped="CommandIcon_Tapped_2" />
             </Button>
             <TextBlock x:Name="CommandsTextBlock" Text="Commands"  
@@ -90,133 +90,22 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <ListView x:Name="NavLinksList" Margin="0,12,0,0" SelectionMode="Single" Grid.Row="0" VerticalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Visible" SelectionChanged="NavLinksList_SelectionChanged" >
-                        <ListViewItem>
-                            <StackPanel Orientation="Horizontal"  Margin="10,0,0,0" Height="40">
-                                <SymbolIcon Symbol="Setting" />
-                                <TextBlock Text="target" Margin="24,0,0,0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <StackPanel Orientation="Horizontal"  Margin="40,0,0,0" Height="40">
-                                <SymbolIcon Symbol="OneBar" />
-                                <TextBlock Text="localhost" Margin="24,0,0,0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <StackPanel Orientation="Horizontal"  Margin="40,0,0,0" Height="40" >
-                                <SymbolIcon Symbol="TwoBars" />
-                                <TextBlock Text="minwinpc" Margin="24,0,0,0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <StackPanel Orientation="Horizontal"  Margin="40,0,0,0" Height="40">
-                                <SymbolIcon Symbol="ThreeBars" />
-                                <TextBlock Text="192.168.0.28" Margin="24,0,0,0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <StackPanel Orientation="Horizontal"  Margin="10,0,0,0" Height="40">
-                                <SymbolIcon Symbol="Setting" />
-                                <TextBlock Text="OS" Margin="24,0,0,0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <StackPanel Orientation="Horizontal"  Margin="40,0,0,0" Height="40">
-                                <SymbolIcon Symbol="OpenWith" />
-                                <TextBlock Text="sysinfo" Margin="24,0,0,0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <StackPanel Orientation="Horizontal" Margin="40,0,0,0" Height="40">
-                                <SymbolIcon Symbol="ShowResults" />
-                                <TextBlock Text="osapi" Margin="24,0,0,0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </ListViewItem>
-
-                        <ListViewItem>
-                            <StackPanel Orientation="Horizontal"  Margin="10,0,0,0" Height="40">
-                                <SymbolIcon Symbol="Setting" />
-                                <TextBlock Text="System" Margin="24,0,0,0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </ListViewItem>
-
-
-                        <ListViewItem>
-                            <StackPanel Orientation="Horizontal"  Margin="40,0,0,0" Height="40">
-                                <SymbolIcon Symbol="World" />
-                                <TextBlock Text="ipconfig" Margin="24,0,0,0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <StackPanel Orientation="Horizontal" Margin="40,0,0,0" Height="40">
-                                <SymbolIcon Symbol="Flag" />
-                                <TextBlock Text="devices" Margin="24,0,0,0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <StackPanel Orientation="Horizontal" Margin="40,0,0,0" Height="40">
-                                <SymbolIcon Symbol="WebCam" />
-                                <TextBlock Text="providers" Margin="24,0,0,0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </ListViewItem>
-
-                        <ListViewItem>
-                            <StackPanel Orientation="Horizontal"  Margin="10,0,0,0" Height="40">
-                                <SymbolIcon Symbol="Setting" />
-                                <TextBlock Text="Apps + Processes" Margin="24,0,0,0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </ListViewItem>
-
-                        <ListViewItem>
-                            <StackPanel Orientation="Horizontal"  Margin="40,0,0,0" Height="40">
-                                <SymbolIcon Symbol="SolidStar" />
-                                <TextBlock Text="default app" Margin="24,0,0,0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <StackPanel Orientation="Horizontal" Margin="40,0,0,0" Height="40">
-                                <SymbolIcon Symbol="AllApps" />
-                                <TextBlock Text="packages" Margin="24,0,0,0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <StackPanel Orientation="Horizontal"  Margin="40,0,0,0" Height="40">
-                                <SymbolIcon Symbol="Street" />
-                                <TextBlock Text="processes" Margin="24,0,0,0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </ListViewItem>
-
-
-
-
-                        <ListViewItem>
-                            <StackPanel Orientation="Horizontal"  Margin="10,0,0,0" Height="40">
-                                <SymbolIcon Symbol="Setting" />
-                                <TextBlock Text="misc" Margin="24,0,0,0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <StackPanel Orientation="Horizontal"  Margin="40,0,0,0" Height="40">
-                                <SymbolIcon Symbol="Shop" />
-                                <TextBlock Text="api" Margin="24,0,0,0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem>
-                            <StackPanel Orientation="Horizontal"  Margin="40,0,0,0" Height="40">
-                                <SymbolIcon Symbol="Setting" />
-                                <TextBlock Text="clr api params" Margin="24,0,0,0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </ListViewItem>
-                        <ListViewItem >
-                            <StackPanel Orientation="Horizontal"  Margin="10,0,0,0" Height="40">
-                                <SymbolIcon Symbol="Setting" />
-                                <TextBlock Text="target" Margin="24,0,0,0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </ListViewItem>
-
-
-                    </ListView>
+                    <ListBox x:Name="NavLinksList" Margin="0,12,0,0" 
+                              SelectionMode="Single" Grid.Row="0" 
+                              VerticalAlignment="Stretch" 
+                              ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                             ItemsSource="{Binding}" Tapped="NavLinksList_Tapped"
+                             >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Width="Auto" Height="Auto">
+                                    <SymbolIcon Symbol="{Binding icon}" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding name}" Margin="24,0,0,0" VerticalAlignment="Center" Height="Auto" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    
                     <StackPanel Orientation="Vertical" Grid.Row="1">
                         <StackPanel Orientation="Horizontal"  Height="40">
                             <SymbolIcon Symbol="Setting" />

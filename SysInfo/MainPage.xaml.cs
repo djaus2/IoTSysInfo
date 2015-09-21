@@ -22,55 +22,22 @@ namespace SysInfo
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private enum Instate
-        {
-            None,
-            Ipconfig, //eg. Have listed network devices
-            Ipconfig_Aninterface, //eg. Have selected a network device and displayed its properties
-            Processes,
-            Processes_Aprocess,
-            Devices,
-            Devices_Adevice,
-            Providers,
-            Providers_Aprovider,
-            Packages,
-            Packages_Apackage,
-            /* [1] Adding a new query where the enity is an array
-            newquery,
-            Newquery_Aquery
-            */
-        }
-        Instate SystemState = Instate.None;
 
+        Commands CurrentCmd { get; set; } = null;
 
         public MainPage()
         {
             this.InitializeComponent();
-            SystemState = Instate.None;
+            CurrentCmd = null;
+            GetCommands();
+            NavLinksList.DataContext = Commands.CommandsList;
+
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
-
-        private void SplitViewButton_Click(object sender, RoutedEventArgs e)
-        {
-            /*splitView1.IsPaneOpen = !splitView1.IsPaneOpen;
-            if (splitView1.IsPaneOpen)
-            {
-                CommandsTextBlock.Visibility = Visibility.Visible;
-                Filler1.Width = 150;
-            }
-            else
-            {
-                CommandsTextBlock.Visibility = Visibility.Collapsed;
-                Filler1.Width = 10;
-            }*/
-
-        }
-
-
 
         private void textBoxTargetDeviceName_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -105,187 +72,87 @@ namespace SysInfo
             textBoxTimeout.Text = timeout.ToString();
         }
 
-        private async void NavLinksList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void NavLinksList_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            ListViewItem lvi;
-            StackPanel sp;
-            UIElementCollection tb;
-            TextBlock tbx = new TextBlock();
+
+            if (NavLinksList.SelectedIndex == -1)
+                return;
+
+            Commands cmd = null;
             string Command = "";
-            if (NavLinksList.SelectedIndex != -1)
+            //Get the command from the list item binding
+            cmd = (Commands)NavLinksList.SelectedItem;
+            if (cmd == null)
+                return;
+            Command = cmd.name;
+            if (Command == "")
+                return;
+
+            bool exitNow = false;
+                
+
+            switch (Command)
             {
-                lvi = (ListViewItem)NavLinksList.SelectedItem;
-                sp = (StackPanel)lvi.Content;
-                tb = sp.Children;
-                foreach (var v in tb)
+                case "target":
+                case "localhost":
+                case "minwinpc":
+                case "192.168.0.28":
+                    textBoxDevice.Text = Command;
+                    exitNow = true;
+                    break;
+            }
+            if (exitNow)
+                return;
+
+            textBoxAPI.Text = Command;
+            CurrentCmd = cmd;
+
+            /*Commands cmd = null; ;
+            var varCmd = from d in Commands.CommandsList where d.name==Command select d;
+            if (varCmd.Count() != 0) 
+                cmd = varCmd.ToArray<Commands>()[0];
+            else
+                return;
+            CurrentCmd = cmd; 
+            if (cmd == null)
+                return;*/
+
+            //Show this in the MainPage URL textbox
+            //API buttomn actions what ever is here.
+            this.textBoxAPI.Text = cmd.url;
+                NameValue.NameValues.Clear();
+                DeviceInterfacesOutputList.DataContext = NameValue.NameValues;
+
+                //Do the REST query and JSON parsing
+                bool res = await SysInfo.DoQuery(cmd.url);
+
+                //If not OK then only show a generic error message
+                if (!res)
                 {
-                    if (v.GetType() == tbx.GetType())
-                    {
-                        tbx = (TextBlock)v;
-                        Command = tbx.Text;
-                        break;
-                    }
+                    NameValue.ClearList();
+                    NameValue nv = new NameValue("Error:", "Target not found, timeout or processing error.");
+                }
+                else
+                {
+                    DetailsTextBlock.Text = Command;
+
+                    //If the query response list is from an array simplify by only showing one entry in the list per item
+                    //ie Only show the item name/description etc.
+                    if (NameValue.NameValues_IsFrom_Array)
+                {
+                    //This HAS been patterned (Version 2.2)
+                    NameValue.NameValuesStack.Push(NameValue.NameValues);
+                    string identity = cmd.id;
+                                
+                    //Get only the identity (name) record for each item
+                    var nameValuesIds = from nv in NameValue.NameValues where nv.Name.Contains(identity) select nv;
+                    NameValue.NameValues = nameValuesIds.ToList<NameValue>();
                 }
             }
 
-            if (Command != "")
-            {
-                bool exitNow = false;
-                switch (Command)
-                {
-                    case "target":
-                        exitNow=true;
-                        break;
-                    case "localhost":
-                        textBoxDevice.Text = Command;
-                        exitNow = true;
-                        break;
-                    case "minwinpc":
-                        textBoxDevice.Text = Command;
-                        exitNow = true;
-                        break;
-                    case "192.168.0.28":
-                        textBoxDevice.Text = Command;
-                        exitNow = true;
-                        break;
-                    case "sysinfo":
-                        textBoxAPI.Text = Command;
-                        break;
-                    case "osapi":
-                        textBoxAPI.Text = Command;
-                        break;
-                    case "ipconfig":
-                        textBoxAPI.Text = Command;
-                        break;
-                    case "devices":
-                        textBoxAPI.Text = Command;
-                        break;
-                    case "processes":
-                        textBoxAPI.Text = Command;
-                        break;
-                    case "providers":
-                        textBoxAPI.Text = Command;
-                        break;
-                    case "packages":
-                        textBoxAPI.Text = Command;
-                        break;
-                    case "api":
-                        textBoxAPI.Text = Command;
-                        break;
-                    case "clr api params":
-                        textBoxAPI_Params.Text = "";
-                        break;
-                    /* [2] Add a new query
-                    case "newquery":
-                        textBoxAPI_Params.Text = "";
-                        break;
-                   */
-                }
-
-                if (exitNow)
-                    return;
-                string url = "";
-                switch (Command)
-                {
-                    case "ipconfig":
-                        url = SysInfo.IpConfigURL;
-                        break;
-                    case "sysinfo":
-                        url = SysInfo.SysInfoURLRL;
-                        break;
-                    case "api":
-                        url = SysInfo.APIURL;
-                        break;
-                    case "osapi":
-                        url = SysInfo.OSAPILRL;
-                        break;
-                    case "devices":
-                        url = SysInfo.DevicesURL;
-                        break;
-                    case "processes":
-                        url = SysInfo.ProcessesURL;
-                        break;
-                    case "default app":
-                        url = SysInfo.DefaulAppURL;
-                        break;
-                    case "providers":
-                        url = SysInfo.ProvidersURL;
-                        break;
-                    case "packages":
-                        url = SysInfo.PackagesURL;
-                        break;
-                    /* [3] Add a new query
-                    case "newquery":
-                        url = SysInfo.NewqueryURL;
-                        break;
-                    */
-                    }
-
-                    if (url != "")
-                    {
-                        //Show this in the MainPage URL textbox
-                        //API buttomn actions what ever is here.
-                        this.textBoxAPI.Text = url;
-                        NameValue.NameValues.Clear();
-                        DeviceInterfacesOutputList.DataContext = NameValue.NameValues;
-
-                        //Do the REST query and JSON parsing
-                        bool res = await SysInfo.DoQuery(url);
-
-                        //If not OK then only show a generic error message
-                        if (!res)
-                        {
-                            NameValue.ClearList();
-                            NameValue nv = new NameValue("Error:", "Target not found, timeout or processing error.");
-                        }
-                        else
-                        {
-                            DetailsTextBlock.Text = Command;
-
-                            //If the query response list is from an array simplify by only showing one entry in the list per item
-                            //ie Only show the item name/description etc.
-                            if (NameValue.NameValues_IsFrom_Array)
-                        {
-                            //This HAS been patterned (Version 2.2)
-                            NameValue.NameValuesStack.Push(NameValue.NameValues);
-                                string identity = ".Name";
-                                switch (Command)
-                                {
-                                    //ToDo: Could pattern this.
-
-                                    case "ipconfig":
-                                        SystemState = Instate.Ipconfig;
-                                        break;
-                                    case "processes":
-                                        identity = ".ImageName";
-                                        SystemState = Instate.Processes;
-                                        break;
-                                    case "devices":
-                                        identity = ".Description";
-                                        SystemState = Instate.Devices;
-                                        break;
-                                    case "providers":
-                                        SystemState = Instate.Devices;
-                                        break;
-                                    case "packages":
-                                        SystemState = Instate.Packages;
-                                        break;
-                                    /* [4] Add a new query where top level returns an array of entities
-                                    case "newquery:
-                                        identity =(".Name"- or ".Description" etc need the dot)
-                                        SystemState = Instate.Packages;
-                                        break;
-                                    */
-                            }
-                            //Get only the identity (name) record for each item
-                            var nameValuesIds = from nv in NameValue.NameValues where nv.Name.Contains(identity) select nv;
-                            NameValue.NameValues = nameValuesIds.ToList<NameValue>();
-                        }
-                    }
-
-                    DeviceInterfacesOutputList.DataContext = NameValue.NameValues;
-                }
-            }
+            DeviceInterfacesOutputList.DataContext = NameValue.NameValues;
+                
+            
 
 
         }
@@ -294,58 +161,22 @@ namespace SysInfo
         /// </summary>
         private void DeviceInterfacesOutputList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (DeviceInterfacesOutputList.SelectedIndex == 1)
+            if (DeviceInterfacesOutputList.SelectedIndex == -1)
                 return;
-            switch (SystemState)
-            {
-                case Instate.Ipconfig:
-                case Instate.Processes:
-                case Instate.Devices:
-                case Instate.Providers:
-                case Instate.Packages:
-                /* [5] Add a new query
-                case Instate.Newquery:
-                */
-                    //This HAS been patterned:
-                    //Name contains a dotted index. Need to select all such items from original list
-                    NameValue nv = (NameValue)DeviceInterfacesOutputList.SelectedItem;
-                    string name = nv.Name;
-                    int index = name.IndexOf(" ");
-                    string indexStr = name.Substring(0, index);
-                    NameValue.NameValues = NameValue.NameValuesStack.Pop();
-                    var dt = from d in NameValue.NameValues where d.Name.Substring(0, index) == indexStr select d;
+       
+            //Name contains a dotted index. Need to select all such items from original list
+            NameValue nv = (NameValue)DeviceInterfacesOutputList.SelectedItem;
+            string name = nv.Name;
+            int index = name.IndexOf(" ");
+            string indexStr = name.Substring(0, index);
+            NameValue.NameValues = NameValue.NameValuesStack.Pop();
+            var dt = from d in NameValue.NameValues where d.Name.Substring(0, index) == indexStr select d;
 
-                    //Could implement back button. ToDo would use:
-                    NameValue.NameValuesStack.Push(NameValue.NameValues);
+            //Could implement back button. ToDo would use:
+            NameValue.NameValuesStack.Push(NameValue.NameValues);
 
-                    NameValue.NameValues = dt.ToList<NameValue>();
-                    switch (SystemState)
-                    {
-                        case Instate.Ipconfig:
-                            SystemState = Instate.Ipconfig_Aninterface;
-                            break;
-                        case Instate.Processes:
-                            SystemState = Instate.Processes_Aprocess;
-                            break;
-                        case Instate.Devices:
-                            SystemState = Instate.Devices_Adevice;
-                            break;
-                        case Instate.Providers:
-                            SystemState = Instate.Providers_Aprovider;
-                            break;
-                        case Instate.Packages:
-                            SystemState = Instate.Packages_Apackage;
-                            break;
-                        /* [6] Add a new query where top level returns an array of entities
-                        case Instate.Newquery:
-                            SystemState = Instate.Newquery_Anewquery;
-                            break;
-                        */
-                    }
-                    DeviceInterfacesOutputList.DataContext = NameValue.NameValues;
-                    break;
-            }
-
+            NameValue.NameValues = dt.ToList<NameValue>();
+            DeviceInterfacesOutputList.DataContext = NameValue.NameValues;
         }
 
         private void TextBlock_Tapped(object sender, TappedRoutedEventArgs e)
@@ -406,6 +237,7 @@ namespace SysInfo
 
         private void StackPanel_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            return;
             StackPanel sp = (StackPanel)sender;
             if (sp.DesiredSize.Height - 30 > 0)
             {
@@ -413,5 +245,7 @@ namespace SysInfo
                 SP1.Height = 600;
             }
         }
+
+
     }
 }

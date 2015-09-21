@@ -1,2 +1,4 @@
 SysInfo/Assets/StoreLogo - Copy.png
 .vs/SysInfo/v14/.suo
+*.user
+.vs/config/applicationhost.config

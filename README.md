@@ -22,3 +22,6 @@ The basis of this app (wrt REST and the Web Portal API) came for a blog by Bruce
 * The web portal of a Windows 10 IoT device is accessed at http://the_device_IP_address:8080
  
 eg. http://192.168.0.28:8080
+
+VERSION: 3.0 
+* A major rewrite of the UI codebehind. Now is a JSON file that list the commands and what URL to use. Can extend app simply now by added more command names and URLs

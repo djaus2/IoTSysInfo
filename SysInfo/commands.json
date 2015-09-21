@@ -1,0 +1,71 @@
+﻿{
+  "Commands": 
+  [
+    {
+      "command": "localhost",
+      "url": "",
+      "id": "",
+      "icon": "OneBar"
+    },
+    {
+      "command": "minwinpc",
+      "url": "",
+      "id": "",
+      "icon": "TwoBars"
+    },
+    {
+      "command": "192.168.0.28",
+      "url": "",
+      "id": "",
+      "icon": "FourBars"
+    },
+    {
+      "command": "ipconfig",
+      "url": "api/networking/ipconfig",
+      "id": "",
+      "icon": "World"
+    },
+    {
+      "command": "sysinfo",
+      "url": "api/iot/deviceinformation",
+      "id": "",
+      "icon": "OpenFile"
+    },
+    {
+      "command": "osapi",
+      "url": "api/os/info",
+      "id": "",
+      "icon": "ProtectedDocument"
+    },
+    {
+      "command": "devices",
+      "url": "api/devicemanager/devices",
+      "id": ".Description",
+      "icon": "Scan"
+    },
+    {
+      "command": "processes",
+      "url": "api/resourcemanager/processes",
+      "id": ".ImageName",
+      "icon": "DisableUpdates"
+    },
+    {
+      "command": "default_app",
+      "url": "api/iot/appx/getdefault",
+      "id": "",
+      "icon": "AllApps"
+    },
+    {
+      "command": "providers",
+      "url": "/api/etw/providers",
+      "id": "",
+      "icon": "Contact"
+    },
+    {
+      "command": "packages",
+      "url": "/api/appx/installed",
+      "id": "",
+      "icon": "Mail"
+    }
+  ]
+}
