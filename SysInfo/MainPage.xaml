@@ -106,16 +106,6 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                     
-                    <StackPanel Orientation="Vertical" Grid.Row="1">
-                        <StackPanel Orientation="Horizontal"  Height="40">
-                            <SymbolIcon Symbol="Setting" />
-                            <TextBlock Text="clear" Margin="36,0,0,0" VerticalAlignment="Center" Tapped="TextBlock_Tapped" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Grid.Row="1"  Height="40">
-                            <SymbolIcon Symbol="Setting" />
-                            <TextBlock Text="cancel" Margin="36,0,0,0" VerticalAlignment="Center" Tapped="TextBlock_Tapped" />
-                        </StackPanel>
-                    </StackPanel>
                 </Grid>
             </SplitView.Pane>
 

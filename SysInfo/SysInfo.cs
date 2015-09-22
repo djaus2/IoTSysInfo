@@ -167,25 +167,27 @@ namespace SysInfo
         public static string Port { get; set; } = "8080";
         public static string Admin { get; set; } = "Administrator";
         public static string Pwd { get; set; } = "p@ssw0rd";
+        /*
+                //Query strings
+                public static string IpConfigURL { get; set; } = "api/networking/ipconfig";
+                public static string SysInfoURLRL { get; set; } = "api/iot/deviceinformation";
+                public static string APIURL { get; set; } = "api/networking/ipconfig";
+                public static string OSAPILRL { get; set; } = "api/os/info";
+                public static string DevicesURL { get; set; } = "api/devicemanager/devices";
+                public static string ProcessesURL { get; set; } = "api/resourcemanager/processes";
+                public static string DefaulAppURL { get; set; } = "api/iot/appx/getdefault";
+                public static string ProvidersURL { get; set; } = "/api/etw/providers";
+                public static string PackagesURL { get; set; } = "/api/appx/installed";
+                /* [6] For if a new query is added
+                public static string NewqueryURL { get; set; } = "/api/XXX/YYYYY";
+                */
 
-        //Query strings
-        public static string IpConfigURL { get; set; } = "api/networking/ipconfig";
-        public static string SysInfoURLRL { get; set; } = "api/iot/deviceinformation";
         public static string APIURL { get; set; } = "api/networking/ipconfig";
-        public static string OSAPILRL { get; set; } = "api/os/info";
-        public static string DevicesURL { get; set; } = "api/devicemanager/devices";
-        public static string ProcessesURL { get; set; } = "api/resourcemanager/processes";
-        public static string DefaulAppURL { get; set; } = "api/iot/appx/getdefault";
-        public static string ProvidersURL { get; set; } = "/api/etw/providers";
-        public static string PackagesURL { get; set; } = "/api/appx/installed";
-        /* [6] For if a new query is added
-        public static string NewqueryURL { get; set; } = "/api/XXX/YYYYY";
-        */
         public static string API_Params { get; set; } = "";
 
 
 
-        public async static Task<bool>  DoQuery(string url)
+        public async static Task<bool>  DoQuery(Commands cmd)
         {
             
             NameValue.ClearList();
@@ -194,7 +196,7 @@ namespace SysInfo
 
 
             //The REST call for the command
-            StreamReader SR = await GetJsonStreamData(url);
+            StreamReader SR = await GetJsonStreamData(cmd);
             if (SR==null)
             {
                 return false;
@@ -230,21 +232,27 @@ namespace SysInfo
         /// </summary>
         /// <param name="URL">The REST URL less the host information</param>
         /// <returns>The REST stream. Returns null if any errors etc.</returns>
-        private static async Task<StreamReader> GetJsonStreamData(String URL)
+        private static async Task<StreamReader> GetJsonStreamData(Commands cmd)
         {
+            String URL = cmd.url;
             HttpWebRequest wrGETURL = null;
             Stream objStream = null;
             StreamReader objReader = null; //If any errors etc this is returned as null.
             string url = "http://" + Device + ":" + Port +"/"+ URL;
 
             //Can add parameters:
-            if (API_Params != "")
-            {
-                API_Params = API_Params.Trim();
-                if (API_Params[0] != '?')
-                    API_Params = "?" + API_Params;
-                url += API_Params;
-            }
+            if ((cmd.name == "api") || (cmd.name=="startapp") || (cmd.name == "stopapp"))
+                if (API_Params != "")
+                {
+                    API_Params = API_Params.Trim();
+                    if ((API_Params[0] != '?') && (url[url.Length-1] !='?'))
+                        API_Params = "?" + API_Params;
+                    //url += API_Params;
+                    byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(API_Params);
+                    string appName64 = System.Convert.ToBase64String(toEncodeAsBytes);
+                    url += appName64;
+                    return await PostJsonStreamData(url);
+                }
 
             try
             {
@@ -259,7 +267,7 @@ namespace SysInfo
                 try
                 {
                     cts.CancelAfter(Timeout);
-                    //Make teh REST call:
+                    //Make the REST call:
                     Response = (HttpWebResponse)(await wrGETURL.GetResponseAsync());
                     completed = true;
                 }
@@ -288,6 +296,33 @@ namespace SysInfo
             }
             return objReader;
         }
+
+        private static async Task<StreamReader> PostJsonStreamData(String URL)
+        {
+            HttpWebRequest wrGETURL = null;
+            Stream objStream = null;
+            StreamReader objReader = null;
+
+            try
+            {
+                wrGETURL = (HttpWebRequest)WebRequest.Create(URL);
+                wrGETURL.Method = "POST";
+                wrGETURL.Credentials = new NetworkCredential("Administrator", "p@ssw0rd");
+
+                HttpWebResponse Response = (HttpWebResponse)(await wrGETURL.GetResponseAsync());
+                if (Response.StatusCode == HttpStatusCode.OK)
+                {
+                    objStream = Response.GetResponseStream();
+                    objReader = new StreamReader(objStream);
+                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("GetData " + e.Message);
+            }
+            return objReader;
+        }
+
 
     }
 }

@@ -66,6 +66,43 @@
       "url": "/api/appx/installed",
       "id": "",
       "icon": "Mail"
+    },
+    {
+      "command": "startapp",
+      "url": "api/taskmanager/start?appid=",
+      "id": "",
+      "icon": "Setting"
+    },
+    {
+      "command": "stopapp",
+      "url": "api/taskmanager/stop?appid=",
+      "id": "",
+      "icon": "Setting"
+    },
+    {
+      "command": "api",
+      "url": "",
+      "id": "",
+      "icon": ""
+    },
+    {
+      "command": "api params clr",
+      "url": "",
+      "id": "",
+      "icon": ""
+    },
+    {
+      "command": "clear",
+      "url": "",
+      "id": "",
+      "icon": ""
+    },
+    {
+      "command": "cancel",
+      "url": "",
+      "id": "",
+      "icon": ""
     }
+
   ]
 }

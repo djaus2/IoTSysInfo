@@ -61,7 +61,14 @@ namespace SysInfo
 
         private void textBoxAPI_TextChanged(object sender, TextChangedEventArgs e)
         {
-            SysInfo.APIURL = textBoxAPI.Text;
+            TextBox tb = (TextBox)sender;
+            if (tb != null)
+            {
+                if (tb.Name == "textBoxAPI")
+                    SysInfo.APIURL = textBoxAPI.Text;
+                else if (tb.Name == "textBoxAPI_Params")
+                    SysInfo.API_Params = textBoxAPI_Params.Text;
+            }
         }
 
         private void slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
@@ -100,12 +107,28 @@ namespace SysInfo
                     textBoxDevice.Text = Command;
                     exitNow = true;
                     break;
+                case "api params clr":
+                    textBoxAPI_Params.Text = "";
+                    exitNow = true;
+                    break;
+                case "clear":
+                    NameValue.ClearList();
+                    DeviceInterfacesOutputList.DataContext = NameValue.NameValues;
+                    exitNow = true;
+                    break;
+                case "cancel":
+                    SysInfo.cts.Cancel();
+                    exitNow = true;
+                    break;
             }
             if (exitNow)
                 return;
 
             textBoxAPI.Text = Command;
             CurrentCmd = cmd;
+
+            if (cmd.name == "api")
+                cmd.url = textBoxAPI_Params.Text;
 
             /*Commands cmd = null; ;
             var varCmd = from d in Commands.CommandsList where d.name==Command select d;
@@ -124,7 +147,7 @@ namespace SysInfo
                 DeviceInterfacesOutputList.DataContext = NameValue.NameValues;
 
                 //Do the REST query and JSON parsing
-                bool res = await SysInfo.DoQuery(cmd.url);
+                bool res = await SysInfo.DoQuery(cmd);
 
                 //If not OK then only show a generic error message
                 if (!res)
@@ -163,9 +186,12 @@ namespace SysInfo
         {
             if (DeviceInterfacesOutputList.SelectedIndex == -1)
                 return;
-       
+            
             //Name contains a dotted index. Need to select all such items from original list
             NameValue nv = (NameValue)DeviceInterfacesOutputList.SelectedItem;
+
+            Copy(nv);
+
             string name = nv.Name;
             int index = name.IndexOf(" ");
             string indexStr = name.Substring(0, index);
@@ -178,24 +204,6 @@ namespace SysInfo
             NameValue.NameValues = dt.ToList<NameValue>();
             DeviceInterfacesOutputList.DataContext = NameValue.NameValues;
         }
-
-        private void TextBlock_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            TextBlock tb = (TextBlock)sender;
-            string command = tb.Text;
-
-            switch (command)
-            {
-                case "clear":
-                    NameValue.ClearList();
-                    DeviceInterfacesOutputList.DataContext = NameValue.NameValues;
-                    break;
-                case "cancel":
-                    SysInfo.cts.Cancel();
-                    break;
-            }
-        }
-
 
         private void DetailsButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
@@ -237,7 +245,7 @@ namespace SysInfo
 
         private void StackPanel_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            return;
+           
             StackPanel sp = (StackPanel)sender;
             if (sp.DesiredSize.Height - 30 > 0)
             {
@@ -246,6 +254,12 @@ namespace SysInfo
             }
         }
 
-
+        private void Copy(NameValue nv)
+        {
+            Windows.ApplicationModel.DataTransfer.DataPackage dp =
+                new Windows.ApplicationModel.DataTransfer.DataPackage();
+            dp.SetText(nv.Value);
+            Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(dp);
+        }
     }
 }
