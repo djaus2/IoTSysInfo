@@ -167,6 +167,9 @@ namespace SysInfo
         public static string Port { get; set; } = "8080";
         public static string Admin { get; set; } = "Administrator";
         public static string Pwd { get; set; } = "p@ssw0rd";
+
+        public static string RelAppId { get; set; } = "";
+        public static string FullAppName { get; set; } = "";
         /*
                 //Query strings
                 public static string IpConfigURL { get; set; } = "api/networking/ipconfig";
@@ -307,11 +310,18 @@ namespace SysInfo
         }
         private static async Task<HttpStatusCode> PostRequest(Commands cmd)
         {
-            System.Diagnostics.Debug.WriteLine(API_Params.Trim());
-            byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(API_Params.Trim());
+            string queryString = "";
+            if (cmd.name=="startapp")
+                queryString = RelAppId;
+            else if (cmd.name=="stopapp")
+                queryString = FullAppName;
+            System.Diagnostics.Debug.WriteLine(queryString);
+            byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(queryString);
             string appName64 = System.Convert.ToBase64String(toEncodeAsBytes);
             
             string url = "http://" + Device + ":" + Port + "/" + cmd.url + appName64;
+
+
             System.Diagnostics.Debug.WriteLine(url);
 
 
@@ -334,7 +344,7 @@ namespace SysInfo
                 wrGETURL = (HttpWebRequest)WebRequest.Create(URL);
                 wrGETURL.Method = "POST";
                 wrGETURL.Credentials = new NetworkCredential("Administrator", "p@ssw0rd");
-
+               
                 HttpWebResponse Response = (HttpWebResponse)(await wrGETURL.GetResponseAsync());
                 PostResponse = Response.StatusCode;
                 if (Response.StatusCode == HttpStatusCode.OK)

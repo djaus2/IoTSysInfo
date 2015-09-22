@@ -108,7 +108,10 @@ namespace SysInfo
                     exitNow = true;
                     break;
                 case "api params clr":
+                    textBoxAPI.Text = "";
                     textBoxAPI_Params.Text = "";
+                    textBoxAppRelativeID.Text = "";
+                    textBoxAppFullName.Text = "";
                     exitNow = true;
                     break;
                 case "clear":
@@ -183,7 +186,7 @@ namespace SysInfo
         /// Drill into an item to get selected item's properties
         /// </summary>
         private void DeviceInterfacesOutputList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        { 
             if (DeviceInterfacesOutputList.SelectedIndex == -1)
                 return;
             
@@ -203,6 +206,11 @@ namespace SysInfo
 
             NameValue.NameValues = dt.ToList<NameValue>();
             DeviceInterfacesOutputList.DataContext = NameValue.NameValues;
+            if (name.Contains("InstalledPackages.Name"))
+            {
+                textBoxAppRelativeID.Text = NameValue.NameValues[0].Value;
+                textBoxAppFullName.Text = NameValue.NameValues[3].Value;
+            }
         }
 
         private void DetailsButton_Tapped(object sender, TappedRoutedEventArgs e)
@@ -261,6 +269,16 @@ namespace SysInfo
             dp.SetText(nv.Value);
             Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(dp);
             textBoxAPI_Params.Text = nv.Value;
+        }
+
+        private void textBoxAppRelativeID_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SysInfo.RelAppId = textBoxAppRelativeID.Text;
+        }
+
+        private void textBoxAAppFullName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SysInfo.FullAppName = textBoxAppFullName.Text;
         }
     }
 }

@@ -22,7 +22,7 @@
     {
       "command": "ipconfig",
       "url": "api/networking/ipconfig",
-      "id": "",
+      "id": ".Description",
       "icon": "World"
     },
     {
@@ -75,7 +75,7 @@
     },
     {
       "command": "stopapp",
-      "url": "api/taskmanager/stop?appid=",
+      "url": "api/taskmanager/stop?package=",
       "id": "",
       "icon": "Setting"
     },

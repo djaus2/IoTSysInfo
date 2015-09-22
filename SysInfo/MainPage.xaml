@@ -8,7 +8,7 @@
     mc:Ignorable="d">
 
    
-    <StackPanel x:Name="SP0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical"  SizeChanged="StackPanel_SizeChanged" >
+    <StackPanel x:Name="SP0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Orientation="vertical"  SizeChanged="StackPanel_SizeChanged" RenderTransformOrigin="0.507,0.649" >
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="VisualStateGroup">
@@ -52,7 +52,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <RelativePanel  Margin="0,0,0,0"  Background="#FFD9DBF5" Height="40"  UseLayoutRounding="False" d:LayoutRounding="Auto">
+        <RelativePanel x:Name="AppBar" Margin="0,0,0,0"  Background="#FFD9DBF5" Height="40"  UseLayoutRounding="False" d:LayoutRounding="Auto">
             <Button Name="SplitViewButton" Background="Transparent"   >
                 <FontIcon FontFamily="{ThemeResource ContentControlThemeFontFamily}" Glyph="&#x2261;" FontSize="24" Tapped="CommandIcon_Tapped_2" />
             </Button>
@@ -83,7 +83,10 @@
                    RelativePanel.RightOf="DetailsButton" 
                    RelativePanel.AlignVerticalCenterWith="SplitViewButton" />
         </RelativePanel>
-        <SplitView x:Name="splitView1" PaneBackground="#800000FF" IsPaneOpen="True" OpenPaneLength="256" CompactPaneLength="48" DisplayMode="Inline" Height="Auto">
+  
+        
+        
+        <SplitView x:Name="splitView1" PaneBackground="#800000FF" IsPaneOpen="True" OpenPaneLength="256" CompactPaneLength="48" DisplayMode="Inline" Height="729">
             <SplitView.Pane >
                 <Grid >
                     <Grid.RowDefinitions>
@@ -105,13 +108,12 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    
+
                 </Grid>
             </SplitView.Pane>
 
-
-            <StackPanel x:Name="SP" Orientation="Horizontal"  Background="LightBlue" >
-                <RelativePanel x:Name="SP1"  BorderBrush="Black" Background="Pink" Margin="0,0,0,155" DataContext="{Binding}" Width="380" >
+            <StackPanel x:Name="SP" Orientation="Horizontal"  Background="LightBlue" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                <RelativePanel x:Name="SP1"  BorderBrush="Black" Background="Pink" DataContext="{Binding}" Width="380" >
                     <TextBlock x:Name="textBlock1"  Margin="10,25,50,0" Height="27"  TextWrapping="NoWrap" Text="Device:" VerticalAlignment="Top" Width="75"/>
                     <TextBox x:Name="textBoxDevice" RelativePanel.RightOf="textBlock1" RelativePanel.AlignVerticalCenterWith="textBlock1"  Height="35"  TextWrapping="NoWrap" Text="localhost" VerticalAlignment="Top" Width="175" TextChanged="textBoxTargetDeviceName_TextChanged"/>
 
@@ -148,7 +150,20 @@
                     <TextBox x:Name="textBoxAPI_Params"  Margin="0,10,0,0"   Height="34"
                                     RelativePanel.RightOf="apitextBlock6" RelativePanel.AlignLeftWith="textBoxDevice" RelativePanel.AlignVerticalCenterWith="apitextBlock6"
                                     TextWrapping="NoWrap" Text=""  Width="236" TextChanged="textBoxAPI_TextChanged"/>
-                </RelativePanel>
+                    
+                    <TextBlock x:Name="apitextBlock7"  Margin="10,10,0,0" RelativePanel.Below="apitextBlock6" RelativePanel.AlignLeftWith="textBlock" Height="22"  TextWrapping="NoWrap" Text="App Rel ID:"  Width="128"/>
+
+                    <TextBox x:Name="textBoxAppRelativeID"  Margin="0,10,0,0"   Height="34"
+                                    RelativePanel.RightOf="apitextBlock7" RelativePanel.AlignLeftWith="textBoxDevice" RelativePanel.AlignVerticalCenterWith="apitextBlock7"
+                                    TextWrapping="NoWrap" Text=""  Width="236" TextChanged="textBoxAppRelativeID_TextChanged" VerticalAlignment="Top"/>
+                    
+                    <TextBlock x:Name="apitextBlock8"  Margin="10,10,0,0" RelativePanel.Below="apitextBlock7" RelativePanel.AlignLeftWith="textBlock" Height="22"  TextWrapping="NoWrap" Text="App Full Name:"  Width="128"/>
+
+                    <TextBox x:Name="textBoxAppFullName"  Margin="0,10,0,0"   Height="34"
+                                    RelativePanel.RightOf="apitextBlock8" RelativePanel.AlignLeftWith="textBoxDevice" RelativePanel.AlignVerticalCenterWith="apitextBlock8"
+                                    TextWrapping="NoWrap" Text=""  Width="236" TextChanged="textBoxAAppFullName_TextChanged"/>                
+                </RelativePanel> 
+                
                 <!-- StackPanel Orientation="Vertical"  BorderBrush="Black" Background="LightBlue" Width="Auto" Height="300" -->
                 <ListBox x:Name="DeviceInterfacesOutputList"    ItemsSource="{Binding}" Background="LightBlue" 
                      ScrollViewer.IsVerticalRailEnabled="True" 
@@ -160,7 +175,7 @@
                      Margin="0,0,0,0" 
                      ScrollViewer.HorizontalScrollBarVisibility="Auto" 
                      ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                     SelectionChanged="DeviceInterfacesOutputList_SelectionChanged" 
+                     SelectionChanged="DeviceInterfacesOutputList_SelectionChanged"  
                      >
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -171,10 +186,9 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <CheckBox x:Name="checkBox" Content="CheckBox" Height="39" Margin="0,353,0,0" VerticalAlignment="Top" Width="96"/>
 
             </StackPanel>
-
         </SplitView>
+       
     </StackPanel>
 </Page>
