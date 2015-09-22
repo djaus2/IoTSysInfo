@@ -260,6 +260,7 @@ namespace SysInfo
                 new Windows.ApplicationModel.DataTransfer.DataPackage();
             dp.SetText(nv.Value);
             Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(dp);
+            textBoxAPI_Params.Text = nv.Value;
         }
     }
 }

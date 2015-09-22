@@ -194,32 +194,42 @@ namespace SysInfo
 
 
 
-
+            StreamReader SR = null;
+            HttpStatusCode response;
             //The REST call for the command
-            StreamReader SR = await GetJsonStreamData(cmd);
-            if (SR==null)
+            if (cmd.url.Contains("?"))
             {
-                return false;
+                response = await PostRequest(cmd);
+                NameValue nv = new NameValue("Result:",response.ToString());
             }
-
-            //Process the JSON stream data
-            JsonObject ResultData = null;
-            try
+            else
             {
-                String JSONData;
-                //Get the stream as text.
-                JSONData = SR.ReadToEnd();
+                SR = await GetJsonStreamData(cmd);
 
-                //Convert to JSON object
-                ResultData = (JsonObject)JsonObject.Parse(JSONData); 
+                if (SR == null)
+                {
+                    return false;
+                }
 
-                //Process the JSON data
-                NameValue.GetNameValues("", ResultData);
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-                return false;
+                //Process the JSON stream data
+                JsonObject ResultData = null;
+                try
+                {
+                    String JSONData;
+                    //Get the stream as text.
+                    JSONData = SR.ReadToEnd();
+
+                    //Convert to JSON object
+                    ResultData = (JsonObject)JsonObject.Parse(JSONData);
+
+                    //Process the JSON data
+                    NameValue.GetNameValues("", ResultData);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                    return false;
+                }
             }
             return true;
         }
@@ -241,18 +251,17 @@ namespace SysInfo
             string url = "http://" + Device + ":" + Port +"/"+ URL;
 
             //Can add parameters:
-            if ((cmd.name == "api") || (cmd.name=="startapp") || (cmd.name == "stopapp"))
-                if (API_Params != "")
-                {
-                    API_Params = API_Params.Trim();
-                    if ((API_Params[0] != '?') && (url[url.Length-1] !='?'))
-                        API_Params = "?" + API_Params;
-                    //url += API_Params;
-                    byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(API_Params);
-                    string appName64 = System.Convert.ToBase64String(toEncodeAsBytes);
-                    url += appName64;
-                    return await PostJsonStreamData(url);
-                }
+            //if (cmd.url[cmd.url.Length-1] == '?') 
+            //{
+            //    System.Diagnostics.Debug.WriteLine(API_Params);
+
+            //     API_Params = API_Params.Trim();
+
+            //    byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(API_Params);
+            //    string appName64 = System.Convert.ToBase64String(toEncodeAsBytes);
+            //    url += appName64;
+            //    return await PostJsonStreamData(url);
+            //}
 
             try
             {
@@ -296,12 +305,29 @@ namespace SysInfo
             }
             return objReader;
         }
+        private static async Task<HttpStatusCode> PostRequest(Commands cmd)
+        {
+            System.Diagnostics.Debug.WriteLine(API_Params.Trim());
+            byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(API_Params.Trim());
+            string appName64 = System.Convert.ToBase64String(toEncodeAsBytes);
+            
+            string url = "http://" + Device + ":" + Port + "/" + cmd.url + appName64;
+            System.Diagnostics.Debug.WriteLine(url);
 
-        private static async Task<StreamReader> PostJsonStreamData(String URL)
+
+            HttpStatusCode response = await PostJsonStreamData(url);
+
+            return response;
+        }
+
+        private static async Task<HttpStatusCode> PostJsonStreamData(String URL)
         {
             HttpWebRequest wrGETURL = null;
             Stream objStream = null;
             StreamReader objReader = null;
+
+            System.Diagnostics.Debug.WriteLine(URL);
+            HttpStatusCode PostResponse = HttpStatusCode.BadRequest;
 
             try
             {
@@ -310,17 +336,20 @@ namespace SysInfo
                 wrGETURL.Credentials = new NetworkCredential("Administrator", "p@ssw0rd");
 
                 HttpWebResponse Response = (HttpWebResponse)(await wrGETURL.GetResponseAsync());
+                PostResponse = Response.StatusCode;
                 if (Response.StatusCode == HttpStatusCode.OK)
                 {
                     objStream = Response.GetResponseStream();
                     objReader = new StreamReader(objStream);
+                    string strn = objReader.ReadToEnd();             
                 }
             }
             catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine("GetData " + e.Message);
+               
             }
-            return objReader;
+            return PostResponse;
         }
 
 
