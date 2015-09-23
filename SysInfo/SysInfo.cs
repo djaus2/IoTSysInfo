@@ -167,9 +167,9 @@ namespace SysInfo
         public static string Port { get; set; } = "8080";
         public static string Admin { get; set; } = "Administrator";
         public static string Pwd { get; set; } = "p@ssw0rd";
-
         public static string RelAppId { get; set; } = "";
         public static string FullAppName { get; set; } = "";
+        public static bool ForceStop { get; set; } = false;
         /*
                 //Query strings
                 public static string IpConfigURL { get; set; } = "api/networking/ipconfig";
@@ -202,11 +202,13 @@ namespace SysInfo
             //The REST call for the command
             if (cmd.url.Contains("?"))
             {
+                //POST
                 response = await PostRequest(cmd);
                 NameValue nv = new NameValue("Result:",response.ToString());
             }
             else
             {
+                //GET
                 SR = await GetJsonStreamData(cmd);
 
                 if (SR == null)
@@ -310,16 +312,35 @@ namespace SysInfo
         }
         private static async Task<HttpStatusCode> PostRequest(Commands cmd)
         {
-            string queryString = "";
-            if (cmd.name=="startapp")
+            
+            string queryString = API_Params;
+            if (cmd.name == "startapp")
                 queryString = RelAppId;
-            else if (cmd.name=="stopapp")
+            else if (cmd.name == "stopapp")
                 queryString = FullAppName;
+            else if (cmd.name == "shutdown")
+                queryString = "";
+            else if (cmd.name == "reboot")
+                queryString = "";
+
+ 
+
+            //Post is used if url has ? in it. If no parameters then remove it
+            string url = cmd.url;
+            if (queryString == "")
+                url = url.Substring( 0, url.IndexOf('?') );
+
             System.Diagnostics.Debug.WriteLine(queryString);
             byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(queryString);
             string appName64 = System.Convert.ToBase64String(toEncodeAsBytes);
             
-            string url = "http://" + Device + ":" + Port + "/" + cmd.url + appName64;
+            
+            if (cmd.name == "stopapp")
+            {
+                url = "http://" + Device + ":" + Port + "/" + url + (ForceStop ? "?forcestop=true&" : "") + "package=" + appName64;
+            }
+            else
+                url = "http://" + Device + ":" + Port + "/" + url + appName64;
 
 
             System.Diagnostics.Debug.WriteLine(url);

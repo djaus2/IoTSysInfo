@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -100,7 +102,6 @@ namespace SysInfo
 
             switch (Command)
             {
-                case "target":
                 case "localhost":
                 case "minwinpc":
                 case "192.168.0.28":
@@ -114,7 +115,7 @@ namespace SysInfo
                     textBoxAppFullName.Text = "";
                     exitNow = true;
                     break;
-                case "clear":
+                case "clear details":
                     NameValue.ClearList();
                     DeviceInterfacesOutputList.DataContext = NameValue.NameValues;
                     exitNow = true;
@@ -122,6 +123,29 @@ namespace SysInfo
                 case "cancel":
                     SysInfo.cts.Cancel();
                     exitNow = true;
+                    break;
+                case "stopapp":
+                    DialogResult dr1 =  await ShowDialog("Stop App", "Do you wish to force the selecetded app to stop?", new List<DialogResult> { DialogResult.Yes, DialogResult.No,DialogResult.Cancel });
+                    if (dr1 == DialogResult.Yes)
+                        SysInfo.ForceStop = true;
+                    else if (dr1 == DialogResult.No)
+                        SysInfo.ForceStop = false;
+                    else
+                        exitNow = true;
+                    break;
+                case "shutdown":
+                    DialogResult dr2 = await ShowDialog("Shutdown", "Do you wish to shutdown the system?", new List<DialogResult> { DialogResult.Yes, DialogResult.Cancel });
+                    if (dr2 == DialogResult.Yes)
+                    { }
+                    else
+                        exitNow = true;
+                    break;
+                case "reboot":
+                    DialogResult dr3 = await ShowDialog("Reboot", "Do you wish reboot the system?", new List<DialogResult> { DialogResult.Yes,  DialogResult.Cancel });
+                    if (dr3 == DialogResult.Yes)
+                    { }
+                    else
+                        exitNow = true;
                     break;
             }
             if (exitNow)
@@ -133,15 +157,6 @@ namespace SysInfo
             if (cmd.name == "api")
                 cmd.url = textBoxAPI_Params.Text;
 
-            /*Commands cmd = null; ;
-            var varCmd = from d in Commands.CommandsList where d.name==Command select d;
-            if (varCmd.Count() != 0) 
-                cmd = varCmd.ToArray<Commands>()[0];
-            else
-                return;
-            CurrentCmd = cmd; 
-            if (cmd == null)
-                return;*/
 
             //Show this in the MainPage URL textbox
             //API buttomn actions what ever is here.
@@ -254,12 +269,12 @@ namespace SysInfo
         private void StackPanel_SizeChanged(object sender, SizeChangedEventArgs e)
         {
            
-            StackPanel sp = (StackPanel)sender;
-            if (sp.DesiredSize.Height - 30 > 0)
-            {
-                splitView1.Height = sp.DesiredSize.Height - 30;
-                SP1.Height = 600;
-            }
+            //StackPanel sp = (StackPanel)sender;
+            //if (sp.DesiredSize.Height - 30 > 0)
+            //{
+            //    splitView1.Height = sp.DesiredSize.Height - 30;
+            //    SP1.Height = 600;
+            //}
         }
 
         private void Copy(NameValue nv)
@@ -279,6 +294,34 @@ namespace SysInfo
         private void textBoxAAppFullName_TextChanged(object sender, TextChangedEventArgs e)
         {
             SysInfo.FullAppName = textBoxAppFullName.Text;
+        }
+
+        enum DialogResult
+        {
+            Yes,No,OK,Cancel
+        }
+
+        private async Task<DialogResult> ShowDialog(string Title, string Message, List<DialogResult> buttons)
+        {
+            DialogResult res = DialogResult.OK;
+
+            var dialog = new MessageDialog(Message);
+            dialog.Title = Title;
+            if (buttons.Contains(DialogResult.Yes))
+                dialog.Commands.Add(new UICommand { Label = "Yes", Id = DialogResult.Yes });
+            if (buttons.Contains(DialogResult.No))
+                dialog.Commands.Add(new UICommand { Label = "No", Id = DialogResult.No });
+            if (buttons.Contains(DialogResult.OK))
+                dialog.Commands.Add(new UICommand { Label = "OK", Id = DialogResult.OK });
+            if (buttons.Contains(DialogResult.Cancel))
+                dialog.Commands.Add(new UICommand { Label = "Cancel", Id = DialogResult.Cancel });
+
+            var rebootRes = await dialog.ShowAsync();
+
+            res = (DialogResult) rebootRes.Id;
+
+            
+            return res;
         }
     }
 }

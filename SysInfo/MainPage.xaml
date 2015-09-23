@@ -75,7 +75,7 @@
                    RelativePanel.AlignVerticalCenterWith="SplitViewButton" />
 
 
-            <SymbolIcon Symbol="Sync" x:Name="DetailsButton"  Tapped="DetailsButton_Tapped" 
+            <SymbolIcon Symbol="Crop" x:Name="DetailsButton"  Tapped="DetailsButton_Tapped" 
             	RelativePanel.RightOf="Filler2"
             	RelativePanel.AlignVerticalCenterWith="SplitViewButton" />
 
@@ -114,6 +114,11 @@
 
             <StackPanel x:Name="SP" Orientation="Horizontal"  Background="LightBlue" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                 <RelativePanel x:Name="SP1"  BorderBrush="Black" Background="Pink" DataContext="{Binding}" Width="380" >
+                    <FlyoutBase.AttachedFlyout>
+                        <Flyout>
+                            <Grid Height="35" Width="118"/>
+                        </Flyout>
+                    </FlyoutBase.AttachedFlyout>
                     <TextBlock x:Name="textBlock1"  Margin="10,25,50,0" Height="27"  TextWrapping="NoWrap" Text="Device:" VerticalAlignment="Top" Width="75"/>
                     <TextBox x:Name="textBoxDevice" RelativePanel.RightOf="textBlock1" RelativePanel.AlignVerticalCenterWith="textBlock1"  Height="35"  TextWrapping="NoWrap" Text="localhost" VerticalAlignment="Top" Width="175" TextChanged="textBoxTargetDeviceName_TextChanged"/>
 

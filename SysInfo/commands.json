@@ -71,37 +71,49 @@
       "command": "startapp",
       "url": "api/taskmanager/start?appid=",
       "id": "",
-      "icon": "Setting"
+      "icon": "Play"
     },
     {
       "command": "stopapp",
-      "url": "api/taskmanager/stop?package=",
+      "url": "api/taskmanager/stop?", 
       "id": "",
-      "icon": "Setting"
+      "icon": "Download"
+    },
+        {
+      "command": "shutdown",
+      "url": "api/control/shutdown?",
+      "id": "",
+      "icon": "Stop"
+    },
+    {
+      "command": "reboot",
+      "url": "api/control/reboot?",
+      "id": "",
+      "icon": "Refresh"
     },
     {
       "command": "api",
       "url": "",
       "id": "",
-      "icon": ""
+      "icon": "Library"
     },
     {
       "command": "api params clr",
       "url": "",
       "id": "",
-      "icon": ""
+      "icon": "Delete"
     },
     {
-      "command": "clear",
+      "command": "clear details",
       "url": "",
       "id": "",
-      "icon": ""
+      "icon": "Crop"
     },
     {
       "command": "cancel",
       "url": "",
       "id": "",
-      "icon": ""
+      "icon": "Cancel"
     }
 
   ]
