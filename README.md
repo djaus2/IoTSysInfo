@@ -25,13 +25,16 @@ eg. http://192.168.0.28:8080
 
 # VERSION: 3.0 
 * A major rewrite of the UI codebehind. Now is a JSON file that list the commands and what URL to use. Can extend app simply now by added more command names and URLs
+
 # VERSION: 3.2
 * *startapp* now works: Drill into Packages and click on the Relative name of the app. It gets copied to the Params textbox. Then press startapp.
 app command now fixed as well
+
 # VERSION  3.5
 * *stopapp* now works AND *startapp* modified from Version 3.2:
 * When you click on a specific package some of it's metadata gets copied to two textboxes in the Settings pane.
 * When you then click on [startapp] or [stopapp] the required parameters are taken from these textboxes
+
 # VERSION 4.0
 * **stopapp** now seeks confirmation and ForceStop option
 * Added **shutdown** and **reset** system both with confirmation
