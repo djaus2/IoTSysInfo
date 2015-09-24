@@ -8,7 +8,7 @@ Windows 10 IoT, Windows 10 Desktop, Windows 10 Phone(Version 2 of app)
 A *Windows 10 IoT* device has a *web portal* in which you can view various aspects of the running device. You can also set some aspects. The readable status items are accessed via the portal gain this access through *REST* calls from *JavaScript*. This app uses the same APIs and accesses them through *REST*. As the responses are in *JSON* format, the app **recursively** parses the respone to generate the inormation to be displayed.
 
 # UI Versions
-There are two UI versions of this app, both using the same *REST* and *JSON* processing code. They differ on the UI interface in that the first version is simple interface meant for a standard desktop screen. The second is more complex in that the UI is devided into three sections and are subject to *State Triggers*. This vesrion is meant for smaller screens as well as the desktop as the triggers can auotmatically hide parts of the UI which can be manually trigggered for display.
+There are two UI versions of this app, both using the same *REST* and *JSON* processing code. They differ on the UI interface in that the first version is a simple interface meant for a standard desktop screen. The second is more complex in that the UI is devided into three sections and are subject to *State Triggers*. This vesrion is meant for smaller screens as well as the desktop as the triggers can auotmatically hide parts of the UI which can be manually trigggered for display.
 Repository Versions 2.0 are all of the second UI format. **See VERSIONs: below**
 
 # The Take Home
