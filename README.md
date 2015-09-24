@@ -49,3 +49,6 @@ app command now fixed as well
 * For stopapp there is a checkbox in the Settins to ForceStop if required.
 * urls in the JSON file now have * at end if POST is to be used
 * Package name is now "sensible" .. not a GUID. See Bruce's Blog.
+
+# VERSION: 4.5
+* Added **Uninstall** Package command
