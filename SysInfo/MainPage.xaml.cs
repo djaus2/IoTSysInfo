@@ -135,7 +135,7 @@ namespace SysInfo
                     }
                     else
                     {
-                        DialogResult dr1 = await ShowDialog("Stop App", "Do you wish to force the selecetded app to stop?", new List<DialogResult> { DialogResult.Yes, DialogResult.No, DialogResult.Cancel });
+                        DialogResult dr1 = await ShowDialog("Stop App", "Do you wish to force the seleceted app to stop?", new List<DialogResult> { DialogResult.Yes, DialogResult.No, DialogResult.Cancel });
                         if (dr1 == DialogResult.Yes)
                             SysInfo.ForceStop = true;
                         else if (dr1 == DialogResult.No)
@@ -154,6 +154,13 @@ namespace SysInfo
                 case "reboot":
                     DialogResult dr3 = await ShowDialog("Reboot", "Do you wish reboot the system?", new List<DialogResult> { DialogResult.Yes, DialogResult.Cancel });
                     if (dr3 == DialogResult.Yes)
+                    { }
+                    else
+                        exitNow = true;
+                    break;
+                case "uninstall":
+                    DialogResult dr4 = await ShowDialog("Uninstall package", "Do you wish to uninstall the select package?", new List<DialogResult> { DialogResult.Yes, DialogResult.Cancel });
+                    if (dr4 == DialogResult.Yes)
                     { }
                     else
                         exitNow = true;

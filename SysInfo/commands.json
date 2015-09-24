@@ -63,7 +63,13 @@
     },
     {
       "command": "packages",
-      "url": "/api/appx/installed",
+      "url": "api/appx/installed",
+      "id": "",
+      "icon": "Mail"
+    },
+    {
+      "command": "uninstall",
+      "url": "api/appx/uninstall?package=*",
       "id": "",
       "icon": "Mail"
     },
@@ -75,10 +81,11 @@
     },
     {
       "command": "stopapp",
-      "url": "api/taskmanager/stop?*", 
+      "url": "api/taskmanager/stop?*",
       "id": "",
       "icon": "Download"
     },
+
         {
       "command": "shutdown",
       "url": "api/control/shutdown*",

@@ -322,8 +322,9 @@ namespace SysInfo
                 queryString = "";
             else if (cmd.name == "reboot")
                 queryString = "";
+            else if (cmd.name == "uninstall")
+                queryString = FullAppName;
 
- 
 
             //Post is used if url has * on end so remove it. 
             string url = cmd.url;
@@ -337,6 +338,10 @@ namespace SysInfo
             if (cmd.name == "stopapp")
             {
                 url = "http://" + Device + ":" + Port + "/" + url + (ForceStop ? "?forcestop=true&" : "") + "package=" + appName64;
+            }
+            else if (cmd.name== "uninstall")
+            {
+                url = "http://" + Device + ":" + Port + "/" + url + queryString;
             }
             else
                 url = "http://" + Device + ":" + Port + "/" + url + appName64;
