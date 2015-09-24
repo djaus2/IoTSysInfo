@@ -48,3 +48,4 @@ app command now fixed as well
 * Relevant commands are stopapp, shutdown and reboot. Dialogs used for confirmation (and ForceStop option with stopapp)
 * For stopapp there is a checkbox in the Settins to ForceStop if required.
 * urls in the JSON file now have * at end if POST is to be used
+* Package name is now "sensible" .. not a GUID. See Bruce's Blog.
