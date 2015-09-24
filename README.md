@@ -17,7 +17,9 @@ This app shows you how you access various system attributes of a Windows 10 IoT 
 # Acknowledgement
 The basis of this app (wrt REST and the Web Portal API) came for a blog by Bruce Eitman: 
 
-[Windows 10 IoT Core: Getting the MAC Address from Raspberry Pi.](http://www.embedded101.com/BruceEitman/entryid/676/Windows-10-IoT-Core-Getting-the-MAC-Address-from-Raspberry-Pi)
+* [Windows 10 IoT Core: Getting the MAC Address from Raspberry Pi.](http://www.embedded101.com/BruceEitman/entryid/676/Windows-10-IoT-Core-Getting-the-MAC-Address-from-Raspberry-Pi)
+* [Windows 10 IoT Core: Stop A Running Package](http://www.embedded101.com/BruceEitman/entryid/686/windows-10-iot-core-stop-a-running-package)
+* [Windows 10 IoT Core: Shutdown and Reboot the Raspberry Pi](http://www.embedded101.com/BruceEitman/entryid/685/windows-10-iot-core-shutdown-and-reboot-the-raspberry-pi)
 
 ### Footnote:
 * The web portal of a Windows 10 IoT device is accessed at http://the_device_IP_address:8080
