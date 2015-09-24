@@ -69,25 +69,25 @@
     },
     {
       "command": "startapp",
-      "url": "api/taskmanager/start?appid=",
+      "url": "api/taskmanager/start?appid=*",
       "id": "",
       "icon": "Play"
     },
     {
       "command": "stopapp",
-      "url": "api/taskmanager/stop?", 
+      "url": "api/taskmanager/stop?*", 
       "id": "",
       "icon": "Download"
     },
         {
       "command": "shutdown",
-      "url": "api/control/shutdown?",
+      "url": "api/control/shutdown*",
       "id": "",
       "icon": "Stop"
     },
     {
       "command": "reboot",
-      "url": "api/control/reboot?",
+      "url": "api/control/reboot*",
       "id": "",
       "icon": "Refresh"
     },

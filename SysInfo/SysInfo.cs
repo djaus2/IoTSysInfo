@@ -200,7 +200,7 @@ namespace SysInfo
             StreamReader SR = null;
             HttpStatusCode response;
             //The REST call for the command
-            if (cmd.url.Contains("?"))
+            if (cmd.url[cmd.url.Length-1]=='*')
             {
                 //POST
                 response = await PostRequest(cmd);
@@ -325,10 +325,9 @@ namespace SysInfo
 
  
 
-            //Post is used if url has ? in it. If no parameters then remove it
+            //Post is used if url has * on end so remove it. 
             string url = cmd.url;
-            if (queryString == "")
-                url = url.Substring( 0, url.IndexOf('?') );
+            url = url.Substring( 0, url.Length-1 );
 
             System.Diagnostics.Debug.WriteLine(queryString);
             byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(queryString);

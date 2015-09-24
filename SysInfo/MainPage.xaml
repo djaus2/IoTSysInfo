@@ -166,7 +166,11 @@
 
                     <TextBox x:Name="textBoxAppFullName"  Margin="0,10,0,0"   Height="34"
                                     RelativePanel.RightOf="apitextBlock8" RelativePanel.AlignLeftWith="textBoxDevice" RelativePanel.AlignVerticalCenterWith="apitextBlock8"
-                                    TextWrapping="NoWrap" Text=""  Width="236" TextChanged="textBoxAAppFullName_TextChanged"/>                
+                                    TextWrapping="NoWrap" Text=""  Width="236" TextChanged="textBoxAAppFullName_TextChanged"/>
+                    <CheckBox x:Name="checkBoxAppForceStop" Content="App ForceStop" HorizontalAlignment="Left" Height="41" Margin="0,0,-12,-9" VerticalAlignment="Top" Width="132"
+                              RelativePanel.Below="textBoxAppFullName"
+                              RelativePanel.AlignLeftWith="textBoxDevice"
+                              />
                 </RelativePanel> 
                 
                 <!-- StackPanel Orientation="Vertical"  BorderBrush="Black" Background="LightBlue" Width="Auto" Height="300" -->

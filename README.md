@@ -30,12 +30,18 @@ eg. http://192.168.0.28:8080
 * *startapp* now works: Drill into Packages and click on the Relative name of the app. It gets copied to the Params textbox. Then press startapp.
 app command now fixed as well
 
-# VERSION  3.5
+# VERSION: 3.5
 * *stopapp* now works AND *startapp* modified from Version 3.2:
 * When you click on a specific package some of it's metadata gets copied to two textboxes in the Settings pane.
 * When you then click on [startapp] or [stopapp] the required parameters are taken from these textboxes
 
-# VERSION 4.0
+# VERSION: 4.0
 * **stopapp** now seeks confirmation and ForceStop option
 * Added **shutdown** and **reset** system both with confirmation
 * Added Confirmation Dialog for the above
+
+# VERSION: 4.1
+* Dialog boxes don't work on IoT, so in this version, the three commands that use them have Try-Catch around them, so are ignored.
+* Relevant commands are stopapp, shutdown and reboot. Dialogs used for confirmation (and ForceStop option with stopapp)
+* For stopapp there is a checkbox in the Settins to ForceStop if required.
+* urls in the JSON file now have * at end if POST is to be used
