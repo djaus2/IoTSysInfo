@@ -169,6 +169,9 @@ namespace SysInfo
         public static string Pwd { get; set; } = "p@ssw0rd";
         public static string RelAppId { get; set; } = "";
         public static string FullAppName { get; set; } = "";
+        public static string NewSystemName { get; set; } = "minwinpc"; 
+        public static string NewPassword { get; set; } = "p@ssw0rd"; 
+
         public static bool ForceStop { get; set; } = false;
         /*
                 //Query strings
@@ -324,7 +327,10 @@ namespace SysInfo
                 queryString = "";
             else if (cmd.name == "uninstall")
                 queryString = FullAppName;
-
+            else if (cmd.name == "renamesys")
+                queryString = NewSystemName;
+            else if (cmd.name == "setpwd")
+                queryString = Pwd;
 
             //Post is used if url has * on end so remove it. 
             string url = cmd.url;
@@ -333,15 +339,21 @@ namespace SysInfo
             System.Diagnostics.Debug.WriteLine(queryString);
             byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(queryString);
             string appName64 = System.Convert.ToBase64String(toEncodeAsBytes);
-            
-            
-            if (cmd.name == "stopapp")
-            {
+
+            if (queryString == "")
+                url = "http://" + Device + ":" + Port + "/" + url;
+            else if (cmd.name == "stopapp")
                 url = "http://" + Device + ":" + Port + "/" + url + (ForceStop ? "?forcestop=true&" : "") + "package=" + appName64;
-            }
-            else if (cmd.name== "uninstall")
-            {
+            else if (cmd.name == "uninstall")
                 url = "http://" + Device + ":" + Port + "/" + url + queryString;
+            else if (cmd.name== "setpwd")
+            {
+                appName64 = appName64.Replace("=", "%3D");
+                url = "http://" + Device + ":" + Port + "/" + url + appName64 + cmd.id;
+                byte[] toEncodeAsBytes_2 = System.Text.ASCIIEncoding.ASCII.GetBytes(NewPassword);
+                string appName64_2 = System.Convert.ToBase64String(toEncodeAsBytes_2);
+                appName64_2 = appName64_2.Replace("=", "%3D");
+                url += appName64_2;
             }
             else
                 url = "http://" + Device + ":" + Port + "/" + url + appName64;

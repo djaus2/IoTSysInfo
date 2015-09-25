@@ -102,6 +102,9 @@ namespace SysInfo
 
             switch (Command)
             {
+                case "":
+                    exitNow = true;
+                    break;
                 case "localhost":
                 case "minwinpc":
                 case "192.168.0.28":
@@ -164,7 +167,32 @@ namespace SysInfo
                     { }
                     else
                         exitNow = true;
+                    break;                
+                case "renamesys":
+                    if (!(bool)checkBoxIsV10_0_10531.IsChecked)
+                        exitNow = true;
+                    else
+                    {
+                        DialogResult dr5 = await ShowDialog("Rename System", "Do you wish to rename the device?", new List<DialogResult> { DialogResult.Yes, DialogResult.Cancel });
+                        if (dr5 == DialogResult.Yes)
+                        { }
+                        else
+                            exitNow = true;
+                    }
+                        break;
+                case "setpwd":
+                    if (!(bool)checkBoxIsV10_0_10531.IsChecked)
+                        exitNow = true;
+                    else
+                    {
+                        DialogResult dr6 = await ShowDialog("Set Admin Pwd", "Do you wish to reset the admin password?", new List<DialogResult> { DialogResult.Yes, DialogResult.Cancel });
+                        if (dr6 == DialogResult.Yes)
+                        { }
+                        else
+                            exitNow = true;
+                    }
                     break;
+
             }
             if (exitNow)
                 return;
@@ -350,6 +378,16 @@ namespace SysInfo
 
 
             return res;
+        }
+
+        private void textBoxNewSystemName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SysInfo.NewSystemName = textBoxNewSystemName.Text;
+        }
+
+        private void textBoxNewPwd_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SysInfo.NewPassword = textBoxNewPwd.Text;
         }
     }
 }

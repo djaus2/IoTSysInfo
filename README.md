@@ -1,5 +1,7 @@
 # IoTSysInfo
-A Universal Windows App that mimicks the web portal* to a Windows 10 IoT device. (Both versions now uploaded)
+A Universal Windows App that mimicks the web portal* to a Windows 10 IoT device. 
+
+# Update for new **OS Version:  10.0.10531** See Below 
 
 ## Platforms:
 Windows 10 IoT, Windows 10 Desktop, Windows 10 Phone(Version 2 of app)
@@ -52,3 +54,13 @@ app command now fixed as well
 
 # VERSION: 4.5
 * Added **Uninstall** Package command
+
+# VERSION 5.0
+* Changes for **OS Version:  10.0.10531** Released 24th Sept 2015
+* Two new commands implemented
+* Set **Device Name**
+* Set new **Administrator Password**
+* There is a Checkbox that must be checked before those two commands work (for backward compatibility).
+* Note: Two previous commands do not work now (ToDo) *Get Default App* and *SysInfo*
+
+

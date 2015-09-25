@@ -74,6 +74,12 @@
       "icon": "Mail"
     },
     {
+      "command": "install",
+      "url": "api/appx/install?package=*",
+      "id": "",
+      "icon": "Mail"
+    },
+    {
       "command": "startapp",
       "url": "api/taskmanager/start?appid=*",
       "id": "",
@@ -85,8 +91,7 @@
       "id": "",
       "icon": "Download"
     },
-
-        {
+    {
       "command": "shutdown",
       "url": "api/control/shutdown*",
       "id": "",
@@ -96,6 +101,18 @@
       "command": "reboot",
       "url": "api/control/reboot*",
       "id": "",
+      "icon": "Refresh"
+    },
+    {
+      "command": "renamesys",
+      "url": "api/iot/device/name?newdevicename=*",
+      "id": "",
+      "icon": "Refresh"
+    },
+    {
+      "command": "setpwd",
+      "url": "api/iot/device/password?oldpassword=*",
+      "id": "&newpassword=",
       "icon": "Refresh"
     },
     {
@@ -117,11 +134,10 @@
       "icon": "Crop"
     },
     {
-      "command": "cancel",
+      "command": "",
       "url": "",
       "id": "",
-      "icon": "Cancel"
-    }
-
+      "icon": ""
+    }   
   ]
 }

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="Win10IoTSysInfo" Publisher="CN=david" Version="1.0.0.0" />
+  <Identity Name="Win10IoTSysInfo" Publisher="CN=david" Version="1.0.5.0" />
   <mp:PhoneIdentity PhoneProductId="2cbf58a6-22f8-49d9-bd18-71bcb04afd6a" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>SysInfo</DisplayName>
@@ -16,12 +16,7 @@
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="SysInfo.App">
       <uap:VisualElements DisplayName="SysInfo" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="SysInfo" BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" ShortName="SysInfo" Square310x310Logo="Assets\Wide310x310Logo.png">
-          <uap:ShowNameOnTiles>
-            <uap:ShowOn Tile="square150x150Logo" />
-            <uap:ShowOn Tile="wide310x150Logo" />
-            <uap:ShowOn Tile="square310x310Logo" />
-          </uap:ShowNameOnTiles>
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" ShortName="SysInfo">
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
