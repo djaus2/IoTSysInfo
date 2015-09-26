@@ -67,7 +67,10 @@ app command now fixed as well
 * Many of the "undocumented" URLs have changed from the previous version of the OS. There were some changes to some of the parameters. This version addresses this.
 * There is now a Checkbox in the Configuration Pane that should be checked iff your are using the latest version of the OS **Version 10.0.10531**
 * The JSON file hasn't been changed. There is conditional code that does the fixups.
-* ToDo: DefaultApp doesn't work for the new OS.
+* ToDo: Default_App doesn't work for the new OS.
+
+# VERSION 5.2
+* Default_App now works. Another changed URL
 
 
 

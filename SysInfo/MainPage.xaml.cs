@@ -175,7 +175,12 @@ namespace SysInfo
                     //url changed between versions
                     if (SysInfo.IsOSVersuion10_0_10531)
                         cmd.url = "api/appx/packagemanager/packages";
-                    break;
+                    break; 
+                case "default_app":
+                    //url changed between versions
+                    if (SysInfo.IsOSVersuion10_0_10531)
+                        cmd.url = "api/iot/appx/default";
+                    break;                 
                 case "uninstall":
                     //url changed between versions
                     DialogResult dr4 = await ShowDialog("Uninstall package", "Do you wish to uninstall the select package?", new List<DialogResult> { DialogResult.Yes, DialogResult.Cancel });
