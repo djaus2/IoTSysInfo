@@ -127,8 +127,12 @@ namespace SysInfo
                     SysInfo.cts.Cancel();
                     exitNow = true;
                     break;
+                case "startapp":
+                    if (SysInfo.IsOSVersuion10_0_10531)
+                        cmd.url = "api/taskmanager/app?appid=*";
+                    break;
                 case "stopapp":
-                    if ((bool)checkBoxAppForceStop.IsChecked)
+                    if (((bool)checkBoxAppForceStop.IsChecked) || (SysInfo.IsOSVersuion10_0_10531))
                     {
                         DialogResult dr0 = await ShowDialog("Stop App", "Do you wish to stop the selected app?", new List<DialogResult> { DialogResult.Yes, DialogResult.Cancel });
                         if (dr0 == DialogResult.Yes)
@@ -146,6 +150,12 @@ namespace SysInfo
                         else
                             exitNow = true;
                     }
+                    if (SysInfo.IsOSVersuion10_0_10531)
+                        cmd.url = "api/taskmanager/app?package=*";
+                    break;
+                case "sysinfo":
+                    if (SysInfo.IsOSVersuion10_0_10531)
+                        cmd.url = "api/iot/device/information";
                     break;
                 case "shutdown":
                     DialogResult dr2 = await ShowDialog("Reboot", "Do you wish shutdown the system?", new List<DialogResult> { DialogResult.Yes, DialogResult.Cancel });
@@ -161,15 +171,25 @@ namespace SysInfo
                     else
                         exitNow = true;
                     break;
+                case "packages":
+                    //url changed between versions
+                    if (SysInfo.IsOSVersuion10_0_10531)
+                        cmd.url = "api/appx/packagemanager/packages";
+                    break;
                 case "uninstall":
+                    //url changed between versions
                     DialogResult dr4 = await ShowDialog("Uninstall package", "Do you wish to uninstall the select package?", new List<DialogResult> { DialogResult.Yes, DialogResult.Cancel });
                     if (dr4 == DialogResult.Yes)
-                    { }
+                    {
+                        //url changed between versions
+                        if (SysInfo.IsOSVersuion10_0_10531)
+                            cmd.url = "api/appx/packagemanager/package?package=*";
+                    }
                     else
                         exitNow = true;
                     break;                
                 case "renamesys":
-                    if (!(bool)checkBoxIsV10_0_10531.IsChecked)
+                    if (!SysInfo.IsOSVersuion10_0_10531)
                         exitNow = true;
                     else
                     {
@@ -181,7 +201,7 @@ namespace SysInfo
                     }
                         break;
                 case "setpwd":
-                    if (!(bool)checkBoxIsV10_0_10531.IsChecked)
+                    if (!SysInfo.IsOSVersuion10_0_10531)
                         exitNow = true;
                     else
                     {
@@ -213,6 +233,7 @@ namespace SysInfo
             //Do the REST query and JSON parsing
             bool res = await SysInfo.DoQuery(cmd);
 
+
             //If not OK then only show a generic error message
             if (!res)
             {
@@ -221,13 +242,19 @@ namespace SysInfo
             }
             else
             {
-                DetailsTextBlock.Text = Command;
+                if (cmd.name == "renamesys")
+                {
+                        DialogResult dr7 = await ShowDialog("Renamed the device OK", "You will now need to run the command [Reboot].", new List<DialogResult> { DialogResult.OK });
+                }
+
+
+
+                    DetailsTextBlock.Text = Command;
 
                 //If the query response list is from an array simplify by only showing one entry in the list per item
                 //ie Only show the item name/description etc.
                 if (NameValue.NameValues_IsFrom_Array)
                 {
-                    //This HAS been patterned (Version 2.2)
                     NameValue.NameValuesStack.Push(NameValue.NameValues);
                     string identity = cmd.id;
 
@@ -269,8 +296,14 @@ namespace SysInfo
             DeviceInterfacesOutputList.DataContext = NameValue.NameValues;
             if (name.Contains("InstalledPackages.Name"))
             {
-                textBoxAppRelativeID.Text = NameValue.NameValues[0].Value;
-                textBoxAppFullName.Text = NameValue.NameValues[3].Value;
+                
+
+                if (NameValue.NameValues.Count>0)
+                    textBoxAppRelativeID.Text = NameValue.NameValues[0].Value;
+                if (NameValue.NameValues.Count > 3)
+                    textBoxAppFullName.Text = NameValue.NameValues[3].Value;
+                //if (NameValue.NameValues.Count > 4)
+                    textBoxPackage.Text = "undefined"; // NameValue.NameValues[4].Value;
             }
         }
 
@@ -388,6 +421,21 @@ namespace SysInfo
         private void textBoxNewPwd_TextChanged(object sender, TextChangedEventArgs e)
         {
             SysInfo.NewPassword = textBoxNewPwd.Text;
+        }
+
+        private void checkBoxIsV10_0_10531_Unchecked(object sender, RoutedEventArgs e)
+        {
+            SysInfo.IsOSVersuion10_0_10531 = false;
+        }
+
+        private void checkBoxIsV10_0_10531_Checked(object sender, RoutedEventArgs e)
+        {
+            SysInfo.IsOSVersuion10_0_10531 = true;
+        }
+
+        private void textBoxPackage_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SysInfo.PackageName = textBoxPackage.Text;
         }
     }
 }

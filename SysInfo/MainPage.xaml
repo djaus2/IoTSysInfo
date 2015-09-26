@@ -181,9 +181,18 @@
                     <TextBox x:Name="textBoxNewPwd"  Margin="0,10,0,0"   Height="34"
                                     RelativePanel.RightOf="apitextBlock10" RelativePanel.AlignLeftWith="textBoxDevice" RelativePanel.AlignVerticalCenterWith="apitextBlock10"
                                     TextWrapping="NoWrap" Text="p@ssw0rd"  Width="236" TextChanged="textBoxNewPwd_TextChanged"/>
+                    
+                    <TextBlock x:Name="apitextBlock11"  Margin="10,10,0,0" RelativePanel.Below="apitextBlock10" RelativePanel.AlignLeftWith="textBlock" Height="22"  TextWrapping="NoWrap" Text="Package"  Width="128"/>
+
+                    <TextBox x:Name="textBoxPackage"  Margin="0,10,0,0"   Height="34"
+                                    RelativePanel.RightOf="apitextBlock11" RelativePanel.AlignLeftWith="textBoxDevice" RelativePanel.AlignVerticalCenterWith="apitextBlock11"
+                                    TextWrapping="NoWrap" Text="undefined"  Width="236" TextChanged="textBoxPackage_TextChanged"/>
+
+
+
                     <CheckBox x:Name="checkBoxIsV10_0_10531" Content="Is OS Version 10.0.10531" HorizontalAlignment="Left" Height="41" Margin="0,0,-115,-9" VerticalAlignment="Top" Width="235"
-                              RelativePanel.Below="textBoxNewPwd"
-                              RelativePanel.AlignLeftWith="textBoxDevice"                          
+                              RelativePanel.Below="textBoxPackage"
+                              RelativePanel.AlignLeftWith="textBoxDevice" Unchecked="checkBoxIsV10_0_10531_Unchecked" Checked="checkBoxIsV10_0_10531_Checked"                          
                               />
 
 

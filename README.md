@@ -63,4 +63,11 @@ app command now fixed as well
 * There is a Checkbox that must be checked before those two commands work (for backward compatibility).
 * Note: Two previous commands do not work now (ToDo) *Get Default App* and *SysInfo*
 
+# VERSION 5.1
+* Many of the "undocumented" URLs have changed from the previous version of the OS. There were some changes to some of the parameters. This version addresses this.
+* There is now a Checkbox in the Configuration Pane that should be checked iff your are using the latest version of the OS **Version 10.0.10531**
+* The JSON file hasn't been changed. There is conditional code that does the fixups.
+* ToDo: DefaultApp doesn't work for the new OS.
+
+
 

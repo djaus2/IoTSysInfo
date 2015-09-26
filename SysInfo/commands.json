@@ -74,15 +74,9 @@
       "icon": "Mail"
     },
     {
-      "command": "install",
-      "url": "api/appx/install?package=*",
-      "id": "",
-      "icon": "Mail"
-    },
-    {
       "command": "startapp",
       "url": "api/taskmanager/start?appid=*",
-      "id": "",
+      "id": "&package=",
       "icon": "Play"
     },
     {

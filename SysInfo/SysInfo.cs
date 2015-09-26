@@ -169,8 +169,11 @@ namespace SysInfo
         public static string Pwd { get; set; } = "p@ssw0rd";
         public static string RelAppId { get; set; } = "";
         public static string FullAppName { get; set; } = "";
-        public static string NewSystemName { get; set; } = "minwinpc"; 
-        public static string NewPassword { get; set; } = "p@ssw0rd"; 
+        public static string NewSystemName { get; set; } = "minwinpc";
+        public static string NewPassword { get; set; } = "p@ssw0rd";
+
+        public static bool IsOSVersuion10_0_10531 { get; set;} = false;
+        public static string PackageName { get; set; } = "undefined";
 
         public static bool ForceStop { get; set; } = false;
         /*
@@ -337,22 +340,45 @@ namespace SysInfo
             url = url.Substring( 0, url.Length-1 );
 
             System.Diagnostics.Debug.WriteLine(queryString);
-            byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(queryString);
-            string appName64 = System.Convert.ToBase64String(toEncodeAsBytes);
+            //byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(queryString);
+            string appName64 = Encode(queryString); //= System.Convert.ToBase64String(toEncodeAsBytes);
 
             if (queryString == "")
                 url = "http://" + Device + ":" + Port + "/" + url;
             else if (cmd.name == "stopapp")
-                url = "http://" + Device + ":" + Port + "/" + url + (ForceStop ? "?forcestop=true&" : "") + "package=" + appName64;
-            else if (cmd.name == "uninstall")
-                url = "http://" + Device + ":" + Port + "/" + url + queryString;
-            else if (cmd.name== "setpwd")
             {
-                appName64 = appName64.Replace("=", "%3D");
+                if (!IsOSVersuion10_0_10531)
+                    url = "http://" + Device + ":" + Port + "/" + url + (ForceStop ? "?forcestop=true&" : "") + "package=" + appName64; 
+                else
+                    url = "http://" + Device + ":" + Port + "/" + url + appName64;
+            }
+            else if (cmd.name == "startapp")
+            {
+                if (!IsOSVersuion10_0_10531)
+                    url = "http://" + Device + ":" + Port + "/" + url + appName64;
+                else
+                {
+                    url = "http://" + Device + ":" + Port + "/" + url + appName64 + cmd.id;
+                    string appName64_2 = Encode(PackageName); 
+                    url += appName64_2;
+                }
+            }
+
+            else if (cmd.name == "uninstall")
+            {
+                if (!IsOSVersuion10_0_10531)
+                    url = "http://" + Device + ":" + Port + "/" + url + queryString;
+                else
+                    url = "http://" + Device + ":" + Port + "/" + url + appName64;
+            }
+            else if (cmd.name == "setpwd")
+            {
+                //appName64 = appName64.Replace("=", "%3D");
                 url = "http://" + Device + ":" + Port + "/" + url + appName64 + cmd.id;
-                byte[] toEncodeAsBytes_2 = System.Text.ASCIIEncoding.ASCII.GetBytes(NewPassword);
-                string appName64_2 = System.Convert.ToBase64String(toEncodeAsBytes_2);
-                appName64_2 = appName64_2.Replace("=", "%3D");
+                //byte[] toEncodeAsBytes_2 = System.Text.ASCIIEncoding.ASCII.GetBytes(NewPassword);
+                //string appName64_2 = System.Convert.ToBase64String(toEncodeAsBytes_2);
+                //appName64_2 = appName64_2.Replace("=", "%3D");
+                string appName64_2 = Encode(NewPassword);
                 url += appName64_2;
             }
             else
@@ -362,12 +388,12 @@ namespace SysInfo
             System.Diagnostics.Debug.WriteLine(url);
 
 
-            HttpStatusCode response = await PostJsonStreamData(url);
+            HttpStatusCode response = await PostJsonStreamData(url,cmd);
 
             return response;
         }
 
-        private static async Task<HttpStatusCode> PostJsonStreamData(String URL)
+        private static async Task<HttpStatusCode> PostJsonStreamData(String URL, Commands cmd)
         {
             HttpWebRequest wrGETURL = null;
             Stream objStream = null;
@@ -380,6 +406,8 @@ namespace SysInfo
             {
                 wrGETURL = (HttpWebRequest)WebRequest.Create(URL);
                 wrGETURL.Method = "POST";
+                if ((IsOSVersuion10_0_10531) && ((cmd.name=="uninstall")||(cmd.name== "stopapp")))
+                        wrGETURL.Method = "DELETE"; 
                 wrGETURL.Credentials = new NetworkCredential("Administrator", "p@ssw0rd");
                
                 HttpWebResponse Response = (HttpWebResponse)(await wrGETURL.GetResponseAsync());
@@ -397,6 +425,44 @@ namespace SysInfo
                
             }
             return PostResponse;
+        }
+
+        private static string Encode (string strn)
+        {
+            byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(strn);
+            string appName64 = System.Convert.ToBase64String(toEncodeAsBytes);
+            byte[] frm = System.Convert.FromBase64String("dW5kZWZpbmVk");
+            string df = frm.ToString();
+            //appName64 = appName64.Replace(" ", "20%");
+            //Ref:http://www.werockyourweb.com/url-escape-characters/
+            //Yeah its brute force but simple to code in a spreadsheet!
+            appName64 = appName64.Replace(" ", "20%");
+            appName64 = appName64.Replace("$", "24%");
+            appName64 = appName64.Replace("&", "26%");
+            appName64 = appName64.Replace("`", "60%");
+            appName64 = appName64.Replace(":", "%3A");
+            appName64 = appName64.Replace("<", "%3C");
+            appName64 = appName64.Replace(">", "%3E");
+            appName64 = appName64.Replace("[", "%5B");
+            appName64 = appName64.Replace("]", "%5D");
+            appName64 = appName64.Replace("{", "%7B");
+            appName64 = appName64.Replace("}", "%7D");
+            appName64 = appName64.Replace("\"","22%");
+            appName64 = appName64.Replace("+", "%2B");
+            appName64 = appName64.Replace("#", "23%");
+            appName64 = appName64.Replace("%", "25%");
+            appName64 = appName64.Replace("@", "40%");
+            appName64 = appName64.Replace("/", "%2F");
+            appName64 = appName64.Replace(";", "%3B");
+            appName64 = appName64.Replace("=", "%3D");
+            appName64 = appName64.Replace("?", "%3F");
+            appName64 = appName64.Replace("\\","%5C");
+            appName64 = appName64.Replace("^", "%5E");
+            appName64 = appName64.Replace("|", "%7C");
+            appName64 = appName64.Replace("~", "%7E");
+            appName64 = appName64.Replace("'", "27%");
+            appName64 = appName64.Replace(",", "%2C");
+            return appName64;
         }
 
 
