@@ -77,11 +77,12 @@ app command now fixed as well
 * **Commands**: The versions for the **RTM Build**
 * **CommandsV2**: The versions for **OS Version:  10.0.10531**
 * This removes the need to qualify the URLs eg:
-....
+
                         //url changed between versions
                         if (SysInfo.IsOSVersuion10_0_10531)
                             cmd.url = "api/appx/packagemanager/package?package=*";
-....
+
+
 * When you select the OS Version Checkbox at the bottom of the Settings Pane, the commnds list is changed to the correct version.
 
 
