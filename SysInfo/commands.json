@@ -1,6 +1,5 @@
 ﻿{
-  "Commands": 
-  [
+  "Commands": [
     {
       "command": "localhost",
       "url": "",
@@ -82,6 +81,129 @@
     {
       "command": "stopapp",
       "url": "api/taskmanager/stop?*",
+      "id": "",
+      "icon": "Download"
+    },
+    {
+      "command": "shutdown",
+      "url": "api/control/shutdown*",
+      "id": "",
+      "icon": "Stop"
+    },
+    {
+      "command": "reboot",
+      "url": "api/control/reboot*",
+      "id": "",
+      "icon": "Refresh"
+    },
+    {
+      "command": "api",
+      "url": "",
+      "id": "",
+      "icon": "Library"
+    },
+    {
+      "command": "api params clr",
+      "url": "",
+      "id": "",
+      "icon": "Delete"
+    },
+    {
+      "command": "clear details",
+      "url": "",
+      "id": "",
+      "icon": "Crop"
+    },
+    {
+      "command": "",
+      "url": "",
+      "id": "",
+      "icon": ""
+    }
+  ],
+  "CommandsV2": 
+  [
+    {
+      "command": "localhost",
+      "url": "",
+      "id": "",
+      "icon": "OneBar"
+    },
+    {
+      "command": "minwinpc",
+      "url": "",
+      "id": "",
+      "icon": "TwoBars"
+    },
+    {
+      "command": "192.168.0.28",
+      "url": "",
+      "id": "",
+      "icon": "FourBars"
+    },
+    {
+      "command": "ipconfig",
+      "url": "api/networking/ipconfig",
+      "id": ".Description",
+      "icon": "World"
+    },
+    {
+      "command": "sysinfo",
+      "url": "api/iot/device/information",
+      "id": "",
+      "icon": "OpenFile"
+    },
+    {
+      "command": "osapi",
+      "url": "api/os/info",
+      "id": "",
+      "icon": "ProtectedDocument"
+    },
+    {
+      "command": "devices",
+      "url": "api/devicemanager/devices",
+      "id": ".Description",
+      "icon": "Scan"
+    },
+    {
+      "command": "processes",
+      "url": "api/resourcemanager/processes",
+      "id": ".ImageName",
+      "icon": "DisableUpdates"
+    },
+    {
+      "command": "default_app",
+      "url": "api/iot/appx/default",
+      "id": "",
+      "icon": "AllApps"
+    },
+    {
+      "command": "providers",
+      "url": "/api/etw/providers",
+      "id": "",
+      "icon": "Contact"
+    },
+    {
+      "command": "packages",
+      "url": "api/appx/packagemanager/packages",
+      "id": "",
+      "icon": "Mail"
+    },
+    {
+      "command": "uninstall",
+      "url": "api/appx/packagemanager/package?package=*",
+      "id": "",
+      "icon": "Mail"
+    },
+    {
+      "command": "startapp",
+      "url": "api/taskmanager/app?appid=*",
+      "id": "&package=",
+      "icon": "Play"
+    },
+    {
+      "command": "stopapp",
+      "url": "api/taskmanager/app?package=*",
       "id": "",
       "icon": "Download"
     },

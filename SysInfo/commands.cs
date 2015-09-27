@@ -20,7 +20,7 @@ namespace SysInfo
 {
     public sealed partial class MainPage : Page
     {       
-        private void GetCommands()
+        private void GetCommands(string CommandsVersion)
         {
             JsonObject ResultData = null;
             using (StreamReader file = File.OpenText(".\\commands.json"))
@@ -38,7 +38,7 @@ namespace SysInfo
             {
                 
                
-                var commandsQry = from p in ResultData.GetNamedArray("Commands")
+                var commandsQry = from p in ResultData.GetNamedArray(CommandsVersion)
                           select new Commands(
                               p.GetObject().GetNamedString("command"), 
                               p.GetObject().GetNamedString("url"), 
@@ -46,6 +46,7 @@ namespace SysInfo
                               p.GetObject().GetNamedString("icon")
                           );
                 Commands.CommandsList = commandsQry.ToList<Commands>();
+
 
                 //var CommandsArray = ResultData.GetNamedArray("Commands");
                 //for (int i = 0; i < CommandsArray.Count; i++)
@@ -58,7 +59,7 @@ namespace SysInfo
                 //    Commands cmd = new Commands(command,url,id);
                 //    Commands.CommandsList.Add(cmd);
                 //}
-   
+
 
                 // var qw = ResultData.GetNamedArray("Commands");
                 // for (int i = 0; i < qw.Count; i++)

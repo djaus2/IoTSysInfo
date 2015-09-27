@@ -31,7 +31,7 @@ namespace SysInfo
         {
             this.InitializeComponent();
             CurrentCmd = null;
-            GetCommands();
+            GetCommands("Commands");
             NavLinksList.DataContext = Commands.CommandsList;
 
         }
@@ -128,8 +128,6 @@ namespace SysInfo
                     exitNow = true;
                     break;
                 case "startapp":
-                    if (SysInfo.IsOSVersuion10_0_10531)
-                        cmd.url = "api/taskmanager/app?appid=*";
                     break;
                 case "stopapp":
                     if (((bool)checkBoxAppForceStop.IsChecked) || (SysInfo.IsOSVersuion10_0_10531))
@@ -150,15 +148,11 @@ namespace SysInfo
                         else
                             exitNow = true;
                     }
-                    if (SysInfo.IsOSVersuion10_0_10531)
-                        cmd.url = "api/taskmanager/app?package=*";
                     break;
                 case "sysinfo":
-                    if (SysInfo.IsOSVersuion10_0_10531)
-                        cmd.url = "api/iot/device/information";
                     break;
                 case "shutdown":
-                    DialogResult dr2 = await ShowDialog("Reboot", "Do you wish shutdown the system?", new List<DialogResult> { DialogResult.Yes, DialogResult.Cancel });
+                    DialogResult dr2 = await ShowDialog("Shutdown", "Do you wish shutdown the system?", new List<DialogResult> { DialogResult.Yes, DialogResult.Cancel });
                     if (dr2 == DialogResult.Yes)
                     { }
                     else
@@ -173,22 +167,15 @@ namespace SysInfo
                     break;
                 case "packages":
                     //url changed between versions
-                    if (SysInfo.IsOSVersuion10_0_10531)
-                        cmd.url = "api/appx/packagemanager/packages";
                     break; 
                 case "default_app":
                     //url changed between versions
-                    if (SysInfo.IsOSVersuion10_0_10531)
-                        cmd.url = "api/iot/appx/default";
                     break;                 
                 case "uninstall":
                     //url changed between versions
                     DialogResult dr4 = await ShowDialog("Uninstall package", "Do you wish to uninstall the select package?", new List<DialogResult> { DialogResult.Yes, DialogResult.Cancel });
                     if (dr4 == DialogResult.Yes)
                     {
-                        //url changed between versions
-                        if (SysInfo.IsOSVersuion10_0_10531)
-                            cmd.url = "api/appx/packagemanager/package?package=*";
                     }
                     else
                         exitNow = true;
@@ -431,11 +418,15 @@ namespace SysInfo
         private void checkBoxIsV10_0_10531_Unchecked(object sender, RoutedEventArgs e)
         {
             SysInfo.IsOSVersuion10_0_10531 = false;
+            GetCommands("Commands");
+            NavLinksList.DataContext = Commands.CommandsList;
         }
 
         private void checkBoxIsV10_0_10531_Checked(object sender, RoutedEventArgs e)
         {
             SysInfo.IsOSVersuion10_0_10531 = true;
+            GetCommands("CommandsV2");
+            NavLinksList.DataContext = Commands.CommandsList;
         }
 
         private void textBoxPackage_TextChanged(object sender, TextChangedEventArgs e)
