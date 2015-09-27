@@ -209,12 +209,17 @@ namespace SysInfo
             if (exitNow)
                 return;
 
-            textBoxAPI.Text = Command;
-            CurrentCmd = cmd;
+
+            
 
             if (cmd.name == "api")
-                cmd.url = textBoxAPI_Params.Text;
-
+            {
+                //cmd = new Commands(cmd.name, textBoxAPI.Text, "", "");
+                cmd.url = textBoxAPI.Text;
+            }
+            else
+                textBoxAPI.Text = Command;
+            CurrentCmd = cmd;
 
             //Show this in the MainPage URL textbox
             //API buttomn actions what ever is here.

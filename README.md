@@ -85,5 +85,9 @@ app command now fixed as well
 
 * When you select the OS Version Checkbox at the bottom of the Settings Pane, the commnds list is changed to the correct version.
 
+# VERSION 5.4
+* Code correction wrt the [api] command, which was broken. Fixed now.
+* This command allows you to use any relative URL
+
 
 
