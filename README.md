@@ -90,4 +90,15 @@ app command now fixed as well
 * This command allows you to use any relative URL
 
 
+# VERSION 5.5
+* No new working functionality.
+* Hopefully includes seeds for adding [packageInstall] command
+* Its included but only to say its not there yet.
+* Demonstrates UWA FilePicker to pick the package and its cert. [packageInstallSelect]
+* Also uses it in [packageInstallAddDependency]
+* And command [packageInstallState] get the state of install. This will return 200, but during an install returns 202
+* Need to work out how the files get downloaded and actioned.
+
+
+
 

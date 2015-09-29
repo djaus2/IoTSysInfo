@@ -15,11 +15,76 @@ using Windows.UI.Xaml.Navigation;
 
 using Windows.Data.Json;
 
-
+/// <summary>
+/// The Commands class and the MainPage functions relating to it
+/// </summary>
 namespace SysInfo
 {
+    public class Commands
+    {
+        /// <summary>
+        /// Create a new command with name and url only
+        /// </summary>
+        /// <param name="Name">As displayed on the command button</param>
+        /// <param name="Url">Relative URL passed to web portal</param>
+        public Commands(string Name, string Url)
+        {
+            name = Name;
+            url = Url;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Name">As displayed on the command button</param>
+        /// <param name="Url">Relative URL passed to web portal</param>
+        /// <param name="Id">The property name used as ID at first level display when an array of items is returned. Default is .Name</param>
+        /// <param name="Icon">The name of the icon to use in the menu. Defaults to Settings</param>
+        public Commands(string Name, string Url, string Id, string Icon)
+        {
+            name = Name;
+            url = Url;
+            if ((Id != null) && (Id != ""))
+                id = Id;
+            if ((Icon!= null) && (Icon != ""))
+                icon = Icon;
+        }
+
+
+        /// <summary>
+        /// As displayed on the command button
+        /// </summary>
+        public string name { get; set; }
+
+        /// <summary>
+        /// Relative URL passed to web portal. Appended to http://(device):8080
+        /// </summary>
+        public string url { get; set; }
+
+        /// <summary>
+        /// >The property name used as ID at first level display when an array of items is returned. Default is .Name
+        /// </summary>
+        public string id { get; set; } = ".Name";
+
+        /// <summary>
+        /// The name of the icon to use in the menu. Defaults to Settings.
+        /// From the Windows.UI.Xaml.Controls.Symbol class
+        /// </summary>
+        public string icon { get; set; } = "Setting";
+
+        /// <summary>
+        /// The list of commands that is the DataContext for the commnds menu
+        /// </summary>
+        public static List<Commands> CommandsList { get; set; } = new List<Commands>();
+
+    }
+
     public sealed partial class MainPage : Page
-    {       
+    {
+        /// <summary>
+        /// Called at startup to load the commands.
+        /// Also called when tegh OS version changes
+        /// </summary>
+        /// <param name="CommandsVersion">Either Commands (Default) or CommandsV2(New version of OS)</param>
         private void GetCommands(string CommandsVersion)
         {
             JsonObject ResultData = null;
@@ -36,18 +101,19 @@ namespace SysInfo
 
             if (ResultData != null)
             {
-                
-               
+
+
                 var commandsQry = from p in ResultData.GetNamedArray(CommandsVersion)
-                          select new Commands(
-                              p.GetObject().GetNamedString("command"), 
-                              p.GetObject().GetNamedString("url"), 
-                              p.GetObject().GetNamedString("id"),
-                              p.GetObject().GetNamedString("icon")
-                          );
+                                  select new Commands(
+                                      p.GetObject().GetNamedString("command"),
+                                      p.GetObject().GetNamedString("url"),
+                                      p.GetObject().GetNamedString("id"),
+                                      p.GetObject().GetNamedString("icon")
+                                  );
                 Commands.CommandsList = commandsQry.ToList<Commands>();
 
-
+                //Some earlier tries at doin this:
+                //==================================
                 //var CommandsArray = ResultData.GetNamedArray("Commands");
                 //for (int i = 0; i < CommandsArray.Count; i++)
                 //{
@@ -77,36 +143,6 @@ namespace SysInfo
             }
 
         }
-
     }
 
-    public class Commands
-    {
-        public Commands(string Name, string Url)
-        {
-            name = Name;
-            url = Url;
-        }
-        public Commands(string Name, string Url, string Id, string Icon)
-        {
-            name = Name;
-            url = Url;
-            if ((Id != null) && (Id != ""))
-                id = Id;
-            if ((Icon!= null) && (Icon != ""))
-                icon = Icon;
-        }
-
-
-
-        public string name { get; set; }
-        public string url { get; set; }
-
-        public string id { get; set; } = ".Name";
-
-        public string icon { get; set; } = "Setting";
-
-        public static List<Commands> CommandsList { get; set; } = new List<Commands>();
-
     }
-}

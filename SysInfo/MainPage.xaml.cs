@@ -120,7 +120,7 @@ namespace SysInfo
                     break;
                 case "clear details":
                     NameValue.ClearList();
-                    DeviceInterfacesOutputList.DataContext = NameValue.NameValues;
+                    DeviceInterfacesOutputList_DataContextRefresh();
                     exitNow = true;
                     break;
                 case "cancel":
@@ -165,13 +165,13 @@ namespace SysInfo
                     else
                         exitNow = true;
                     break;
-                case "packages":
-                    //url changed between versions
-                    break; 
                 case "default_app":
                     //url changed between versions
-                    break;                 
-                case "uninstall":
+                    break;
+                case "packages":
+                    //url changed between versions
+                    break;           
+                case "packageUninstall":
                     //url changed between versions
                     DialogResult dr4 = await ShowDialog("Uninstall package", "Do you wish to uninstall the select package?", new List<DialogResult> { DialogResult.Yes, DialogResult.Cancel });
                     if (dr4 == DialogResult.Yes)
@@ -179,7 +179,19 @@ namespace SysInfo
                     }
                     else
                         exitNow = true;
-                    break;                
+                    break;
+                case "packageInstall":
+                    DialogResult dr7 = await ShowDialog("Install package", "This command not yet implemented", new List<DialogResult> { DialogResult.OK });
+                    exitNow = true;
+                    break;
+                case "packageInstallSelect":
+                    PickAPackageFileButton_Click(null, null);
+                    exitNow = true;
+                    break;
+                case "packageInstallAddDependency":
+                    AddAPackageDependencyFileButton_Click(null, null);
+                    exitNow = true;
+                    break;
                 case "renamesys":
                     if (!SysInfo.IsOSVersuion10_0_10531)
                         exitNow = true;
@@ -225,7 +237,7 @@ namespace SysInfo
             //API buttomn actions what ever is here.
             this.textBoxAPI.Text = cmd.url;
             NameValue.NameValues.Clear();
-            DeviceInterfacesOutputList.DataContext = NameValue.NameValues;
+            DeviceInterfacesOutputList_DataContextRefresh();
 
             //Do the REST query and JSON parsing
             bool res = await SysInfo.DoQuery(cmd);
@@ -246,7 +258,7 @@ namespace SysInfo
 
 
 
-                    DetailsTextBlock.Text = Command;
+                DetailsTextBlock.Text = Command;
 
                 //If the query response list is from an array simplify by only showing one entry in the list per item
                 //ie Only show the item name/description etc.
@@ -261,11 +273,7 @@ namespace SysInfo
                 }
             }
 
-            DeviceInterfacesOutputList.DataContext = NameValue.NameValues;
-
-
-
-
+            DeviceInterfacesOutputList_DataContextRefresh();
         }
         /// <summary>
         /// Drill into an item to get selected item's properties
@@ -273,6 +281,10 @@ namespace SysInfo
         private void DeviceInterfacesOutputList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (DeviceInterfacesOutputList.SelectedIndex == -1)
+                return;
+
+            //Onlythese commands can be drilled into isarray
+            if (!NameValue.NameValues_IsFrom_Array)
                 return;
 
             //Name contains a dotted index. Need to select all such items from original list
@@ -290,7 +302,7 @@ namespace SysInfo
             NameValue.NameValuesStack.Push(NameValue.NameValues);
 
             NameValue.NameValues = dt.ToList<NameValue>();
-            DeviceInterfacesOutputList.DataContext = NameValue.NameValues;
+            DeviceInterfacesOutputList_DataContextRefresh();
             if (name.Contains("InstalledPackages.Name"))
             {
                 
@@ -300,14 +312,14 @@ namespace SysInfo
                 if (NameValue.NameValues.Count > 3)
                     textBoxAppFullName.Text = NameValue.NameValues[3].Value;
                 //if (NameValue.NameValues.Count > 4)
-                    textBoxPackage.Text = "undefined"; // NameValue.NameValues[4].Value;
+                textBoxPackage.Text =  "undefined"; // NameValue.NameValues[4].Value;
             }
         }
 
         private void DetailsButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             NameValue.ClearList();
-            DeviceInterfacesOutputList.DataContext = NameValue.NameValues;
+            DeviceInterfacesOutputList_DataContextRefresh();
         }
 
         private void SettingsButton_Tapped(object sender, TappedRoutedEventArgs e)

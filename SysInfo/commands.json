@@ -67,7 +67,7 @@
       "icon": "Mail"
     },
     {
-      "command": "uninstall",
+      "command": "packageUninstall",
       "url": "api/appx/uninstall?package=*",
       "id": "",
       "icon": "Mail"
@@ -121,8 +121,7 @@
       "icon": ""
     }
   ],
-  "CommandsV2": 
-  [
+  "CommandsV2": [
     {
       "command": "localhost",
       "url": "",
@@ -190,7 +189,31 @@
       "icon": "Mail"
     },
     {
-      "command": "uninstall",
+      "command": "packageInstallSelect",
+      "url": "",
+      "id": "",
+      "icon": "Mail"
+    },
+    {
+      "command": "packageInstallAddDependency",
+      "url": "",
+      "id": "",
+      "icon": "Mail"
+    },
+    {
+      "command": "packageInstall",
+      "url": "api/appx/packagemanager/package?package=*",
+        "id": "",
+        "icon": "Mail"
+    },
+    {
+      "command": "packageInstallState",
+      "url": "api/appx/packagemanager/state",
+      "id": "",
+      "icon": "Mail"
+    },
+    {
+      "command": "packageUninstall",
       "url": "api/appx/packagemanager/package?package=*",
       "id": "",
       "icon": "Mail"
@@ -254,6 +277,6 @@
       "url": "",
       "id": "",
       "icon": ""
-    }   
+    }
   ]
 }

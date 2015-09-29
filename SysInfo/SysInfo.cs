@@ -169,6 +169,7 @@ namespace SysInfo
         public static string Pwd { get; set; } = "p@ssw0rd";
         public static string RelAppId { get; set; } = "";
         public static string FullAppName { get; set; } = "";
+
         public static string NewSystemName { get; set; } = "minwinpc";
         public static string NewPassword { get; set; } = "p@ssw0rd";
 
@@ -328,13 +329,19 @@ namespace SysInfo
                 queryString = "";
             else if (cmd.name == "reboot")
                 queryString = "";
-            else if (cmd.name == "uninstall")
+            else if (cmd.name == "packageUninstall")
                 queryString = FullAppName;
             else if (cmd.name == "renamesys")
                 queryString = NewSystemName;
             else if (cmd.name == "setpwd")
                 queryString = Pwd;
-
+            else if (cmd.name == "packageInstall")
+            {
+                queryString = FullAppName;
+                int loc = queryString.IndexOf("arm");
+                queryString = queryString.Substring(0, loc) + "ARM.appx";
+                queryString = queryString.Replace("Win10IoT", "");
+            }
             //Post is used if url has * on end so remove it. 
             string url = cmd.url;
             url = url.Substring( 0, url.Length-1 );
@@ -364,7 +371,7 @@ namespace SysInfo
                 }
             }
 
-            else if (cmd.name == "uninstall")
+            else if (cmd.name == "packageUninstall")
             {
                 if (!IsOSVersuion10_0_10531)
                     url = "http://" + Device + ":" + Port + "/" + url + queryString;
@@ -406,7 +413,7 @@ namespace SysInfo
             {
                 wrGETURL = (HttpWebRequest)WebRequest.Create(URL);
                 wrGETURL.Method = "POST";
-                if ((IsOSVersuion10_0_10531) && ((cmd.name=="uninstall")||(cmd.name== "stopapp")))
+                if ((IsOSVersuion10_0_10531) && ((cmd.name=="packageUninstall")||(cmd.name== "stopapp")))
                         wrGETURL.Method = "DELETE"; 
                 wrGETURL.Credentials = new NetworkCredential("Administrator", "p@ssw0rd");
                
@@ -427,12 +434,21 @@ namespace SysInfo
             return PostResponse;
         }
 
-        private static string Encode (string strn)
+        public static string Encode(string strn)
         {
             byte[] toEncodeAsBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(strn);
+            return EncodeB(toEncodeAsBytes);
+        }
+
+        public static string EncodeB (byte[] toEncodeAsBytes)
+        { 
             string appName64 = System.Convert.ToBase64String(toEncodeAsBytes);
-            byte[] frm = System.Convert.FromBase64String("dW5kZWZpbmVk");
-            string df = frm.ToString();
+            //byte[] frm = System.Convert.FromBase64String("dW5kZWZpbmVk");
+            //string df = Encoding.UTF8.GetString(frm, 0, frm.Length);
+            //byte[] frm2 = System.Convert.FromBase64String("U3lzSW5mb18xLjAuNS4wX0FSTS5hcHB4"); 
+            //string df2 = Encoding.UTF8.GetString(frm2, 0, frm2.Length);
+            //byte[] frm3 = System.Convert.FromBase64String("V2luMTBJb1RTeXNJbmZvXzEuMC41LjBfYXJtX19kYW16cGF3aHNwNDh3"); 
+            //string df3 = Encoding.UTF8.GetString(frm3, 0, frm3.Length);         
             //appName64 = appName64.Replace(" ", "20%");
             //Ref:http://www.werockyourweb.com/url-escape-characters/
             //Yeah its brute force but simple to code in a spreadsheet!
