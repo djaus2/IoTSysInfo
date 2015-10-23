@@ -99,6 +99,9 @@ app command now fixed as well
 * And command [packageInstallState] get the state of install. This will return 200, but during an install returns 202
 * Need to work out how the files get downloaded and actioned.
 
+ 
+ [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/djaus2/iotsysinfo/trend.png)](https://bitdeli.com/free "Bitdeli Badge")  
+
 
 
 
