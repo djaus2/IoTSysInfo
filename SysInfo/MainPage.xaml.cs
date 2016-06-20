@@ -36,6 +36,11 @@ namespace SysInfo
 
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            checkBoxIsV10_0_10531.IsChecked = true;
+        }
+
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -44,6 +49,7 @@ namespace SysInfo
         private void textBoxTargetDeviceName_TextChanged(object sender, TextChangedEventArgs e)
         {
             SysInfo.Device = textBoxDevice.Text;
+            RemoteFileSystem.Text = "\\\\" + SysInfo.Device + "\\c$";
         }
 
         private void textBoxPort_TextChanged(object sender, TextChangedEventArgs e)

@@ -112,7 +112,7 @@ namespace SysInfo
                                   );
                 Commands.CommandsList = commandsQry.ToList<Commands>();
 
-                //Some earlier tries at doin this:
+                //Some earlier tries at doing this:
                 //==================================
                 //var CommandsArray = ResultData.GetNamedArray("Commands");
                 //for (int i = 0; i < CommandsArray.Count; i++)

@@ -14,7 +14,7 @@ namespace SysInfo
 {
     public sealed partial class MainPage : Page
     {
-
+        static StorageFolder RemoteStorage = null;
 
         public void MainPage2()
         {
@@ -28,8 +28,11 @@ namespace SysInfo
         public string CertificateStr { get; set; } = "";
         public List<string> DependenciesStr { get; set; } = new List<string>();
 
+        private static StorageFolder PackageFolder = null;
+
         private async void PickAPackageFileButton_Click(object sender, RoutedEventArgs e)
         {
+            PackageFolder = null;
             Dependencies = new List<StorageFile>();
             PackageFile = await PickaFile(".appx");
             if (PackageFile == null)
@@ -51,6 +54,104 @@ namespace SysInfo
                 //DeviceInterfacesOutputList.UpdateLayout();
             });
 
+            StorageFolder fldrLocal = ApplicationData.Current.LocalFolder;
+            StorageFolder fldrApp = Windows.ApplicationModel.Package.Current.InstalledLocation;
+            try
+            {
+                var fldr = await fldrLocal.GetFolderAsync(PackageFile.Name);
+                if (fldr != null)
+                {
+                    var files = await fldr.GetFilesAsync();
+                    foreach (StorageFile fi in files)
+                        await fi.DeleteAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                //Will be folder not found
+                string msg = ex.Message;
+            }
+
+
+            
+            StorageFolder fldrPackage = await fldrLocal.CreateFolderAsync(PackageFile.Name, CreationCollisionOption.OpenIfExists);
+
+            await PackageFile.CopyAsync(fldrPackage, PackageFile.Name, NameCollisionOption.ReplaceExisting);
+            await Certificate.CopyAsync(fldrPackage, Certificate.Name, NameCollisionOption.ReplaceExisting);
+
+            StorageFolder fldrAppInstall = await fldrApp.GetFolderAsync("AppInstall");
+
+            
+
+            StorageFile AppInstall =
+                await fldrAppInstall.GetFileAsync("AppInstall.cmd");
+            var buffer = await Windows.Storage.FileIO.ReadBufferAsync(AppInstall);
+            StorageFile AppInstallOut =
+                await fldrPackage.CreateFileAsync("AppInstall.cmd",
+                    Windows.Storage.CreationCollisionOption.ReplaceExisting);
+            await Windows.Storage.FileIO.WriteBufferAsync(AppInstallOut, buffer);
+
+            //await AppInstall.CopyAsync(fldrPackage);
+
+            StorageFile AppxConfig =
+                await fldrAppInstall.GetFileAsync("AppxConfig.cmd");
+            string AppInstallContents = await Windows.Storage.FileIO.ReadTextAsync(AppxConfig);
+            AppInstallContents = AppInstallContents.Replace("MainAppx_1.0.0.0_arm", PackageFile.DisplayName);
+            
+            AppInstallContents = AppInstallContents.Replace("Microsoft.VCLibs.ARM.14.00 Microsoft.NET.Native.Runtime.1.1 Microsoft.NET.Native.Framework.1.2", " ");
+
+            StorageFile AppxConfigdOut =
+                await fldrPackage.CreateFileAsync("AppxConfig.cmd",
+                    Windows.Storage.CreationCollisionOption.ReplaceExisting);
+            await Windows.Storage.FileIO.WriteTextAsync(AppxConfigdOut, AppInstallContents);
+
+            StorageFile DeployTask =
+                await fldrAppInstall.GetFileAsync("DeployTask.cmd");
+            var buffer3 = await Windows.Storage.FileIO.ReadBufferAsync(DeployTask);
+            StorageFile DeployTaskOut =
+                await fldrPackage.CreateFileAsync("DeployTask.cmd",
+                    Windows.Storage.CreationCollisionOption.ReplaceExisting);
+            await Windows.Storage.FileIO.WriteBufferAsync(DeployTaskOut, buffer3);
+            //await DeployTask.CopyAsync(fldrPackage);
+
+
+            //Windows.ApplicationModel.DataTransfer.DataPackage dp = new Windows.ApplicationModel.DataTransfer.DataPackage();
+            //dp.SetText("\\\\minwinpc\\c$");
+           
+            
+
+            FolderPicker fp = new FolderPicker();
+            fp.SuggestedStartLocation = PickerLocationId.ComputerFolder;
+            fp.FileTypeFilter.Add("*");
+            RemoteStorage = await fp.PickSingleFolderAsync();
+
+            try
+            {
+                if (RemoteStorage != null)
+                {
+                    var files = await RemoteStorage.GetFilesAsync();
+                    foreach (StorageFile fi in files)
+                        await fi.DeleteAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                //Will be folder not found
+                string msg = ex.Message;
+            }
+
+
+            await PackageFile.CopyAsync(RemoteStorage);
+            await Certificate.CopyAsync(RemoteStorage);
+            await AppInstallOut.CopyAsync(RemoteStorage);
+            await AppxConfigdOut.CopyAsync(RemoteStorage);
+            await DeployTaskOut.CopyAsync(RemoteStorage);
+
+
+
+
+
+            PackageFolder = fldrPackage;
 
         }
 
@@ -109,6 +210,25 @@ namespace SysInfo
             Dependencies.Add(packageFile);
             DependenciesStr.Add(encode);
 
+            await packageFile.CopyAsync(PackageFolder, packageFile.Name,NameCollisionOption.ReplaceExisting);
+
+            StorageFolder fldrLocal = ApplicationData.Current.LocalFolder;
+            StorageFolder fldrPackage = await fldrLocal.CreateFolderAsync(PackageFile.Name, CreationCollisionOption.OpenIfExists);
+
+
+            StorageFile AppxConfig =
+                 await fldrPackage.GetFileAsync("AppxConfig.cmd");
+            string AppInstallContents = await Windows.Storage.FileIO.ReadTextAsync(AppxConfig);
+            AppInstallContents = AppInstallContents.Replace("set dependencylist=", "set dependencylist=" +  packageFile.DisplayName + " ");
+            StorageFile AppxConfigdOut =
+                await fldrPackage.CreateFileAsync("AppxConfig.cmd",
+                    Windows.Storage.CreationCollisionOption.ReplaceExisting);
+            await Windows.Storage.FileIO.WriteTextAsync(AppxConfigdOut, AppInstallContents);
+
+            
+
+            await packageFile.CopyAsync(RemoteStorage);
+            await AppxConfigdOut.CopyAsync(RemoteStorage, "AppxConfig.cmd", NameCollisionOption.ReplaceExisting);
 
             NameValue nvDepend = new NameValue("Dependency:", packageFile.Name);
             DeviceInterfacesOutputList_DataContextRefresh();
