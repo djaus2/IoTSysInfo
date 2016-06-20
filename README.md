@@ -31,12 +31,12 @@ eg. http://192.168.0.28:8080
 # VERSION: 6.0
 * Revisted this after awhile!
 * Now includes latest version of AppInstall toolkit from https://github.com/ms-iot/iot-adk-addonkit/tree/develop/Source-arm/Packages/Appx.Main/AppInstall
-* When run remotely generates AppInsttal toolkit customized for selected AppX package.
-* Start by copying RemoteFileSystem textbox
+* When run remotely generates AppInstall toolkit customized for selected AppX package.
+* Start by copying RemoteFileSystem textbox on app
 * Choose AppxPackage and Cert files
-* Copies these to target IoT-Core system, after you select (and create if needed) folder on target (you can paste remote file system here)
-* Will delete any existing files.
-* Then select dependencies (these will be copied to same folder on target as appx and cert files)
+* Copies these to target IoT-Core system, after you select (and create if needed) folder on target (you can paste copied RemoteFileSystem in FolderPicker)
+* Will delete any existing files in that folder.
+* Then select dependencies (These will be copied to same folder on target as appx and cert files)
 * Then can run AppInstall from that folder via PowerShell or SSH
 * Follow this on http://embedded101.com/Blogs/David-Jones
 * [Yet to blog this update]
