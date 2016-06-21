@@ -31,8 +31,8 @@ eg. http://192.168.0.28:8080
 # VERSION: 6.2
 * Reboot/Restart now works.
 * Checked Rename and new password. Both work.
-* Added DateTime, Display resolution and Display Orientation. Display Resolution "woorks" but got to add code to decode it.
-* Added Update but doesn't yet work'
+* Added DateTime, Display resolution and Display Orientation. Display Resolution "works" but got to add code to decode it.
+* Added Update but doesn't yet work.
 
 # VERSION: 6.1
 * Deployment of Package Installation files is now a separate function.
