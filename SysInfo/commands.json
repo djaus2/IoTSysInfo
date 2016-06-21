@@ -91,8 +91,8 @@
       "icon": "Stop"
     },
     {
-      "command": "reboot",
-      "url": "api/control/reboot*",
+      "command": "restart",
+      "url": "api/control/restart*",
       "id": "",
       "icon": "Refresh"
     },
@@ -249,8 +249,8 @@
       "icon": "Stop"
     },
     {
-      "command": "reboot",
-      "url": "api/control/reboot*",
+      "command": "restart",
+      "url": "api/control/restart*",
       "id": "",
       "icon": "Refresh"
     },
@@ -265,6 +265,30 @@
       "url": "api/iot/device/password?oldpassword=*",
       "id": "&newpassword=",
       "icon": "Refresh"
+    },
+	{
+      "command": "updatenow",
+      "url": "api/iot/windowsupdate/updatenow*",
+      "id": "",
+      "icon": "Refresh"
+    },
+    {
+      "command": "datetime",
+      "url": "api/iot/device/datetime",
+      "id": "",
+      "icon": ""
+    },
+	{
+      "command": "displayresolution",
+      "url": "api/iot/device/displayresolution",
+      "id": "",
+      "icon": ""
+    },
+    {
+      "command": "displayorientation",
+      "url": "api/iot/device/displayorientation",
+      "id": "",
+      "icon": ""
     },
     {
       "command": "api",

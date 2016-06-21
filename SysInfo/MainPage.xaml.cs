@@ -136,7 +136,7 @@ namespace SysInfo
                 case "startapp":
                     break;
                 case "stopapp":
-                    if (((bool)checkBoxAppForceStop.IsChecked) || (SysInfo.IsOSVersuion10_0_10531))
+                    if (((bool)checkBoxAppForceStop.IsChecked) || (SysInfo.IsOSVersuion10_0_10531_OrGreater))
                     {
                         DialogResult dr0 = await ShowDialog("Stop App", "Do you wish to stop the selected app?", new List<DialogResult> { DialogResult.Yes, DialogResult.Cancel });
                         if (dr0 == DialogResult.Yes)
@@ -164,7 +164,7 @@ namespace SysInfo
                     else
                         exitNow = true;
                     break;
-                case "reboot":
+                case "restart":
                     DialogResult dr3 = await ShowDialog("Reboot", "Do you wish reboot the system?", new List<DialogResult> { DialogResult.Yes, DialogResult.Cancel });
                     if (dr3 == DialogResult.Yes)
                     { }
@@ -207,7 +207,7 @@ namespace SysInfo
                     exitNow = true;
                     break;
                 case "renamesys":
-                    if (!SysInfo.IsOSVersuion10_0_10531)
+                    if (!SysInfo.IsOSVersuion10_0_10531_OrGreater)
                         exitNow = true;
                     else
                     {
@@ -219,7 +219,7 @@ namespace SysInfo
                     }
                         break;
                 case "setpwd":
-                    if (!SysInfo.IsOSVersuion10_0_10531)
+                    if (!SysInfo.IsOSVersuion10_0_10531_OrGreater)
                         exitNow = true;
                     else
                     {
@@ -448,14 +448,14 @@ namespace SysInfo
 
         private void checkBoxIsV10_0_10531_Unchecked(object sender, RoutedEventArgs e)
         {
-            SysInfo.IsOSVersuion10_0_10531 = false;
+            SysInfo.IsOSVersuion10_0_10531_OrGreater = false;
             GetCommands("Commands");
             NavLinksList.DataContext = Commands.CommandsList;
         }
 
         private void checkBoxIsV10_0_10531_Checked(object sender, RoutedEventArgs e)
         {
-            SysInfo.IsOSVersuion10_0_10531 = true;
+            SysInfo.IsOSVersuion10_0_10531_OrGreater = true;
             GetCommands("CommandsV2");
             NavLinksList.DataContext = Commands.CommandsList;
         }

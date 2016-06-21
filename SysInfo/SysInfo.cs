@@ -173,7 +173,7 @@ namespace SysInfo
         public static string NewSystemName { get; set; } = "minwinpc";
         public static string NewPassword { get; set; } = "p@ssw0rd";
 
-        public static bool IsOSVersuion10_0_10531 { get; set;} = false;
+        public static bool IsOSVersuion10_0_10531_OrGreater { get; set;} = false;
         public static string PackageName { get; set; } = "undefined";
 
         public static bool ForceStop { get; set; } = false;
@@ -327,7 +327,7 @@ namespace SysInfo
                 queryString = FullAppName;
             else if (cmd.name == "shutdown")
                 queryString = "";
-            else if (cmd.name == "reboot")
+            else if (cmd.name == "restart")
                 queryString = "";
             else if (cmd.name == "packageUninstall")
                 queryString = FullAppName;
@@ -354,14 +354,14 @@ namespace SysInfo
                 url = "http://" + Device + ":" + Port + "/" + url;
             else if (cmd.name == "stopapp")
             {
-                if (!IsOSVersuion10_0_10531)
+                if (!IsOSVersuion10_0_10531_OrGreater)
                     url = "http://" + Device + ":" + Port + "/" + url + (ForceStop ? "?forcestop=true&" : "") + "package=" + appName64; 
                 else
                     url = "http://" + Device + ":" + Port + "/" + url + appName64;
             }
             else if (cmd.name == "startapp")
             {
-                if (!IsOSVersuion10_0_10531)
+                if (!IsOSVersuion10_0_10531_OrGreater)
                     url = "http://" + Device + ":" + Port + "/" + url + appName64;
                 else
                 {
@@ -373,7 +373,7 @@ namespace SysInfo
 
             else if (cmd.name == "packageUninstall")
             {
-                if (!IsOSVersuion10_0_10531)
+                if (!IsOSVersuion10_0_10531_OrGreater)
                     url = "http://" + Device + ":" + Port + "/" + url + queryString;
                 else
                     url = "http://" + Device + ":" + Port + "/" + url + appName64;
@@ -413,7 +413,7 @@ namespace SysInfo
             {
                 wrGETURL = (HttpWebRequest)WebRequest.Create(URL);
                 wrGETURL.Method = "POST";
-                if ((IsOSVersuion10_0_10531) && ((cmd.name=="packageUninstall")||(cmd.name== "stopapp")))
+                if ((IsOSVersuion10_0_10531_OrGreater) && ((cmd.name=="packageUninstall")||(cmd.name== "stopapp")))
                         wrGETURL.Method = "DELETE"; 
                 wrGETURL.Credentials = new NetworkCredential("Administrator", "p@ssw0rd");
                
