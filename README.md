@@ -28,6 +28,11 @@ The basis of this app (wrt REST and the Web Portal API) came for a blog by Bruce
  
 eg. http://192.168.0.28:8080
 
+# VERSION: 6.1
+* Deployment of Package Installation files is now a separate function.
+* Now installs on reboot
+* Cleanup option as well
+
 # VERSION: 6.0
 * Revisted this after awhile!
 * Now includes latest version of AppInstall toolkit from https://github.com/ms-iot/iot-adk-addonkit/tree/develop/Source-arm/Packages/Appx.Main/AppInstall
