@@ -107,6 +107,9 @@
     <Content Include="AppInstall\DeployTask.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="AppInstall\oemcustomization.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="ClassDiagram1.cd" />
     <None Include="project.json" />
   </ItemGroup>

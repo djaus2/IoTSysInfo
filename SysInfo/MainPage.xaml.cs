@@ -198,6 +198,14 @@ namespace SysInfo
                     AddAPackageDependencyFileButton_Click(null, null);
                     exitNow = true;
                     break;
+                case "packageInstallDeploy":
+                    PackageInstallDeploy();
+                    exitNow = true;
+                    break;
+                case "packageInstallCleanUp":
+                    PackageInstallCleanUp();
+                    exitNow = true;
+                    break;
                 case "renamesys":
                     if (!SysInfo.IsOSVersuion10_0_10531)
                         exitNow = true;

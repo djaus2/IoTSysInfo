@@ -200,6 +200,18 @@
       "id": "",
       "icon": "Mail"
     },
+	{
+      "command": "packageInstallDeploy",
+      "url": "",
+      "id": "",
+      "icon": "Mail"
+    },
+		{
+      "command": "packageInstallCleanUp",
+      "url": "",
+      "id": "",
+      "icon": "Mail"
+    },
     {
       "command": "packageInstall",
       "url": "api/appx/packagemanager/package?package=*",
