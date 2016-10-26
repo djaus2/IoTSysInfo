@@ -201,6 +201,14 @@
                                     RelativePanel.RightOf="apitextBlock12" RelativePanel.AlignLeftWith="textBoxDevice" RelativePanel.AlignVerticalCenterWith="apitextBlock12"
                                     TextWrapping="NoWrap" Text="\\minwinpc\c$"  Width="236" TextChanged="textBoxPackage_TextChanged"/>
 
+                    <Button x:Name="buttonContinue" Content="Yes"  
+                         RelativePanel.Below="apitextBlock12"
+                              RelativePanel.AlignLeftWith="apitextBlock12" Click="ButtonContinue_Click"   
+                            />
+                    <Button x:Name="buttonCancel" Content="Cancel"  
+                         RelativePanel.Below="RemoteFileSystem"
+                              RelativePanel.AlignLeftWith="RemoteFileSystem" Click="ButtonContinue_Click"   
+                            />
 
                     <!-- Button x:Name="buttonGetPackage" Content="Select Package" HorizontalAlignment="Stretch" Height="35" Margin="0,0,-54,-7" VerticalAlignment="Top"
                          RelativePanel.Below="checkBoxIsV10_0_10531"

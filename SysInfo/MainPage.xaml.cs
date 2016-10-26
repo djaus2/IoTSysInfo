@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -406,31 +407,37 @@ namespace SysInfo
         private async Task<DialogResult> ShowDialog(string Title, string Message, List<DialogResult> buttons)
         {
             DialogResult res = DialogResult.Yes;
-            
 
-            try
-            {
-                MessageDialog dialog = new MessageDialog(Message);
-                dialog.Title = Title;
+#if (IOTCORE)
+            /* */
+        signal = new SemaphoreSlim(0, 1);
+        await signal.WaitAsync();
+            res = YesNo;
+#else
+        try
+        {
+            MessageDialog dialog = new MessageDialog(Message);
+            dialog.Title = Title;
                 
-                if (buttons.Contains(DialogResult.Yes))
-                    dialog.Commands.Add(new UICommand { Label = "Yes", Id = DialogResult.Yes });
-                if (buttons.Contains(DialogResult.No))
-                    dialog.Commands.Add(new UICommand { Label = "No", Id = DialogResult.No });
-                if (buttons.Contains(DialogResult.OK))
-                    dialog.Commands.Add(new UICommand { Label = "OK", Id = DialogResult.OK });
-                if (buttons.Contains(DialogResult.Cancel))
-                    dialog.Commands.Add(new UICommand { Label = "Cancel", Id = DialogResult.Cancel });
+            if (buttons.Contains(DialogResult.Yes))
+                dialog.Commands.Add(new UICommand { Label = "Yes", Id = DialogResult.Yes });
+            if (buttons.Contains(DialogResult.No))
+                dialog.Commands.Add(new UICommand { Label = "No", Id = DialogResult.No });
+            if (buttons.Contains(DialogResult.OK))
+                dialog.Commands.Add(new UICommand { Label = "OK", Id = DialogResult.OK });
+            if (buttons.Contains(DialogResult.Cancel))
+                dialog.Commands.Add(new UICommand { Label = "Cancel", Id = DialogResult.Cancel });
 
-                var rebootRes = await dialog.ShowAsync();
+            var rebootRes = await dialog.ShowAsync();
 
-                res = (DialogResult) rebootRes.Id;
+            res = (DialogResult) rebootRes.Id;
 
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine(ex.Message);
+        }
+#endif
 
 
             return res;
@@ -463,6 +470,26 @@ namespace SysInfo
         private void textBoxPackage_TextChanged(object sender, TextChangedEventArgs e)
         {
             SysInfo.PackageName = textBoxPackage.Text;
+        }
+
+        private SemaphoreSlim signal = new SemaphoreSlim(0, 1);
+        private DialogResult YesNo;
+
+        private void ButtonContinue_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button)
+            {
+                Button butt = (Button)sender;
+                if ("Yes" == (string)butt.Content)
+                {
+                    YesNo = DialogResult.Yes;
+                }
+                else
+                {
+                    YesNo = DialogResult.No;
+                }
+                signal.Release();
+            }
         }
     }
 }

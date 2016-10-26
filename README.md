@@ -1,7 +1,7 @@
 # IoTSysInfo
 A Universal Windows App that mimicks the web portal* to a Windows 10 IoT device. 
 
-# Update for new **OS Version:  10.0.10531** See Below 
+# Now Updated for new **OS Version:  10.0.14393.321 See Below 
 
 ## Platforms:
 Windows 10 IoT, Windows 10 Desktop, Windows 10 Phone(Version 2 of app)
@@ -27,6 +27,14 @@ The basis of this app (wrt REST and the Web Portal API) came for a blog by Bruce
 * The web portal of a Windows 10 IoT device is accessed at http://the_device_IP_address:8080
  
 eg. http://192.168.0.28:8080
+
+# VERSION: 7.0
+* Updated for the Anniversary version of the OS, Build 14393
+* On IoT-Core, Popups are not used for confirmation in favour of Yes Cancel Buttons (Middle pane at bottom)
+* Need to set IOTCORE if Build Symbols for ARM builds
+* Reboot/Restart etc now work when app runs on RPI2
+
+#################################
 
 # VERSION: 6.2
 * Reboot/Restart now works.
