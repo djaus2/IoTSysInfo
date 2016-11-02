@@ -139,3 +139,7 @@ app command now fixed as well
 
 
 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/djaus2/iotsysinfo/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
